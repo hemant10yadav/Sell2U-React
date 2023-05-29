@@ -2,11 +2,11 @@ import { Router } from 'express';
 import { login, signup } from '../controllers/authCtrl';
 import { body } from 'express-validator';
 import User from '../models/user';
-
+import Paths from '../util/paths';
 const router: Router = Router();
 
 router.post(
-   '/signup',
+   Paths.SIGNUP,
    [
       body('email')
          .isEmail()
@@ -43,6 +43,6 @@ router.post(
    signup,
 );
 
-router.post('/login', login);
+router.post(Paths.LOGIN, login);
 
 export default router;
