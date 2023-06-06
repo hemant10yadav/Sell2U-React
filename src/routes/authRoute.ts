@@ -45,4 +45,6 @@ router.post(
 
 router.post(Paths.LOGIN, login);
 
+//router.post(Paths.RESET_PASSWORD, resetPassword);
+
 export default router;
