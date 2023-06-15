@@ -1,4 +1,4 @@
-import express, { Request, NextFunction, Response } from 'express';
+import { Request, NextFunction, Response } from 'express';
 
 export default function corsMiddleware(
    req: Request,

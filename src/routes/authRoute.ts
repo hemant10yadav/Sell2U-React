@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, signup } from '../controllers/authCtrl';
+import { login, signup, resetPassword } from '../controllers/authCtrl';
 import { body } from 'express-validator';
 import User from '../models/user';
 import Paths from '../util/paths';
@@ -45,6 +45,6 @@ router.post(
 
 router.post(Paths.LOGIN, login);
 
-//router.post(Paths.RESET_PASSWORD, resetPassword);
+router.post(Paths.RESET_PASSWORD, resetPassword);
 
 export default router;

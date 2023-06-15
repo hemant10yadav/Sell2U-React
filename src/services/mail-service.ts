@@ -11,7 +11,5 @@ const transport = nodemailer.createTransport({
 });
 
 export default function sendMai(mailBody: Mail.Options) {
-   transport.sendMail(mailBody, (err) => {
-
-   });
+   transport.sendMail(mailBody, (err) => {});
 }

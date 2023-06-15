@@ -65,7 +65,6 @@ export async function login(
       const restUser = JSON.parse(JSON.stringify(loadUser));
       delete restUser.password;
       logger.info(`Login successfully done for ${req.body.emailOrUsername}`);
-      mai
       res.status(200).json({
          token,
          user: restUser,
@@ -81,5 +80,12 @@ export async function resetPassword(
    res: Response,
    next: NextFunction,
 ): Promise<any> {
-   const emailOrUsername = req.body.emailOrUsername;
+   try {
+      const emailOrUsername = req.body.emailOrUsername;
+      const loadUser = await User.findOne({
+         $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      });
+      if (loadUser instanceof User) {
+      }
+   } catch (err) {}
 }
