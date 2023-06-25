@@ -1,4 +1,4 @@
-import { useTranslation, React } from '../../imports/commonimports';
+import { useTranslation, React } from '../../imports/CommonImports';
 
 const Home: React.FC = () => {
 	const { t } = useTranslation();

@@ -4,7 +4,7 @@ import NavBar from './components/navBar/NavBar';
 
 function App() {
 	return (
-		<div className="App">
+		<div className="App app-bg-gradient min-h-screen">
 			<div>
 				<NavBar />
 			</div>

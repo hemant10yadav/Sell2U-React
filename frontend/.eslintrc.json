@@ -45,12 +45,13 @@
   },
   "rules": {
     "linebreak-style": "off",
+    "react/prop-types": 0,
     // Configure prettier
     "prettier/prettier": [
       "error",
       {
         "printWidth": 80,
-        "endOfLine": "lf",
+        "endOfLine": "auto",
         "singleQuote": true,
         "tabWidth": 2,
         "indentStyle": "space",
