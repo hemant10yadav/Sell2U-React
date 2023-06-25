@@ -1,0 +1,11 @@
+{
+  "login": {
+    "title": "Login"
+  },
+  "signup": {
+    "title": "Signup"
+  },
+  "home": {
+    "title": "Home"
+  }
+}
