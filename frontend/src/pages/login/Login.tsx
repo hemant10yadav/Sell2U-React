@@ -48,24 +48,24 @@ const Login: React.FC = () => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
 	};
 
-	const validateForm = () => {
+	/*const validateForm = () => {
 		loginFields.forEach((field) => {
 			if (field.isRequired && loginState[field.id].trim() === '') {
 				if(field.name === 'password') {}
 			}
 		});
-	};
+	};*/
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (validateForm()) {
+		/*if (validateForm()) {
 			// Form is valid, perform submission logic here
 			// You can access the form values using the `loginState` state object
 			console.log('Form submitted:', loginState);
 		} else {
 			// Form is invalid, display error messages
 			console.log('Form validation failed');
-		}
+		}*/
 	};
 
 	return (
