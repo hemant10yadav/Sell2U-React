@@ -1,6 +1,11 @@
 {
   "login": {
-    "title": "Login"
+    "title": "Welcome Back!",
+    "email": "Email address",
+    "password": "Password",
+    "submit": "Submit",
+    "emailRequired": "Email is required.",
+    "passwordRequired": "Password is required."
   },
   "signup": {
     "title": "Signup"

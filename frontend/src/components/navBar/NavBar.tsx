@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
 		<section className="app-bg-color p-3">
 			<div>
 				<img
-					className="inline fit-logo"
+					className="inline fit-logo cursor-pointer"
 					alt={t('app.logo')}
 					src={appLogo as string}
 				/>

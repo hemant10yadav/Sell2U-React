@@ -1,4 +1,5 @@
 import { React, ChangeEvent } from '../../imports/CommonImports';
+import './Input.css';
 
 interface InputProps {
 	handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -7,16 +8,19 @@ interface InputProps {
 	labelFor: string;
 	id: string;
 	name: string;
-	type: string;
+	type?: string;
 	isRequired?: boolean;
 	placeholder?: string;
 	customClass?: string;
+	icon?: React.ComponentType<{ className?: string }>;
+	errorMessage?: string;
 }
 
-const fixedInputClass =
-	'rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm';
+const fixedInputClass = `bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full
+p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`;
 
-// eslint-disable-next-line react/prop-types
 const Input: React.FC<InputProps> = ({
 	handleChange,
 	value,
@@ -28,22 +32,32 @@ const Input: React.FC<InputProps> = ({
 	isRequired = false,
 	placeholder,
 	customClass,
+	icon: IconComponent,
 }) => {
 	return (
 		<div className="my-5">
 			<label htmlFor={labelFor} className="sr-only">
 				{labelText}
 			</label>
-			<input
-				onChange={handleChange}
-				value={value}
-				id={id}
-				name={name}
-				type={type}
-				required={isRequired}
-				className={fixedInputClass + ' ' + (customClass || '')}
-				placeholder={placeholder}
-			/>
+			<div className="relative mb-6">
+				{IconComponent && (
+					<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						<IconComponent className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+					</div>
+				)}
+				<input
+					onChange={handleChange}
+					value={value}
+					id={id}
+					name={name}
+					type={type ? type : 'text'}
+					required={isRequired}
+					className={`${fixedInputClass} ${customClass || ''} ${
+						IconComponent ? 'pl-10' : ''
+					}`}
+					placeholder={placeholder}
+				/>
+			</div>
 		</div>
 	);
 };
