@@ -8,6 +8,7 @@ import Input from '../../components/common/Input';
 import './Login.css';
 import PasswordIcon from '@mui/icons-material/Password';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import APIService from '../../services/ApiService';
 
 const Login: React.FC = () => {
 	const { t } = useTranslation();
@@ -48,24 +49,12 @@ const Login: React.FC = () => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
 	};
 
-	/*const validateForm = () => {
-		loginFields.forEach((field) => {
-			if (field.isRequired && loginState[field.id].trim() === '') {
-				if(field.name === 'password') {}
-			}
-		});
-	};*/
-
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		/*if (validateForm()) {
-			// Form is valid, perform submission logic here
-			// You can access the form values using the `loginState` state object
-			console.log('Form submitted:', loginState);
-		} else {
-			// Form is invalid, display error messages
-			console.log('Form validation failed');
-		}*/
+		void APIService.getInstance().post('/auth/login', {
+			emailOrUsername: 'ankit',
+			password: 'ankitpan',
+		});
 	};
 
 	return (

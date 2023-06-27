@@ -23,15 +23,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module",
     "tsconfigRootDir": ".",
-    "project": [
-      "./tsconfig.json"
-    ]
+    "project": ["./tsconfig.json"]
   },
   // Configuring third-party plugins
-  "plugins": [
-    "react",
-    "@typescript-eslint"
-  ],
+  "plugins": ["react", "@typescript-eslint"],
   // Resolve imports
   "settings": {
     "import/resolver": {
@@ -54,7 +49,6 @@
         "endOfLine": "auto",
         "singleQuote": true,
         "tabWidth": 2,
-        "indentStyle": "space",
         "useTabs": true,
         "trailingComma": "es5"
       }
