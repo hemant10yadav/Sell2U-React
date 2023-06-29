@@ -24,13 +24,15 @@ class LocalStorageService {
 		this.saveInLocalStorage('token', tokenObject);
 	}
 
-	public saveInLocalStorage(key: string, value: object | string) {
-		this.storage.setItem('token', JSON.stringify(value));
+	public saveInLocalStorage<T>(key: string, value: T) {
+		this.storage.setItem(key, JSON.stringify(value));
 	}
 
 	public getInLocalStorage<T>(key: string): T | null {
 		const value = this.storage.getItem(key);
-		if (value) {
+		if (typeof ({} as T) === 'string') {
+			return value as T;
+		} else if (value) {
 			return JSON.parse(value) as T;
 		}
 		return null;
