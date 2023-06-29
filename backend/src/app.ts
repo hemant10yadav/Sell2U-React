@@ -38,7 +38,7 @@ mongoose
 	.connect(EnvConstants.DB_URI)
 	.then(() => {
 		logger.info(`Db connection is done successfully starting the server.`);
-		app.listen(8080);
+		app.listen(3031);
 	})
 	.catch((err) => {
 		logger.error(`Error while connecting DB: ===> ${err.message}`);
