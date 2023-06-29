@@ -6,28 +6,26 @@ import axios, {
 	InternalAxiosRequestConfig,
 } from 'axios';
 import LocalStorageService from './LocalStorageService';
+import { IToken } from '../models/interface';
+import { BASE_URL } from '../models/constants';
 
 class APIService {
 	private static instance: APIService;
-
-	private static BASE_URL: 'http://localhost:3031';
 
 	private api: AxiosInstance;
 
 	private constructor() {
 		this.api = axios.create({
-			baseURL: APIService.BASE_URL,
+			baseURL: BASE_URL,
 			timeout: 5000,
 		});
 
 		// Add an interceptor for requests
 		this.api.interceptors.request.use(
 			(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-				const token = localStorage.getItem('token');
+				const token: IToken = LocalStorageService.getInstance().getToken();
 				if (token) {
-					config.headers.Authorization = `Bearer ${
-						LocalStorageService.getInstance().getToken().value
-					}`;
+					config.headers.Authorization = 'Bearer ' + token.value;
 				}
 				return config;
 			},

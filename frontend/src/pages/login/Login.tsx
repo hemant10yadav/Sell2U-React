@@ -51,10 +51,14 @@ const Login: React.FC = () => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		void APIService.getInstance().post('/auth/login', {
-			emailOrUsername: 'ankit',
-			password: 'ankitpan',
-		});
+		void APIService.getInstance().post(
+			'/auth/login',
+			{
+				emailOrUsername: loginState['email-address'],
+				password: loginState.password,
+			},
+			true
+		);
 	};
 
 	return (
