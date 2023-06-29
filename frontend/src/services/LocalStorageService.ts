@@ -30,10 +30,14 @@ class LocalStorageService {
 
 	public getInLocalStorage<T>(key: string): T | null {
 		const value = this.storage.getItem(key);
-		if (typeof ({} as T) === 'string') {
-			return value as T;
-		} else if (value) {
-			return JSON.parse(value) as T;
+		if (value) {
+			let returnValue;
+			try {
+				returnValue = JSON.parse(value) as T;
+			} catch (e) {
+				returnValue = value;
+			}
+			return returnValue as T;
 		}
 		return null;
 	}
