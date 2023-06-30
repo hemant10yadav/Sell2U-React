@@ -4,11 +4,12 @@ import {
 	useState,
 	ChangeEvent,
 } from '../../imports/CommonImports';
-import Input from '../../components/common/Input';
+import Input from '../../components/common/input/Input';
 import './Login.css';
 import PasswordIcon from '@mui/icons-material/Password';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import APIService from '../../services/ApiService';
+import Button from '../../components/common/button/Button';
 
 const Login: React.FC = () => {
 	const { t } = useTranslation();
@@ -21,6 +22,7 @@ const Login: React.FC = () => {
 			name: 'email',
 			type: 'email',
 			autoComplete: 'email',
+			autoFocus: true,
 			isRequired: true,
 			placeholder: t('login.email'),
 			icon: MailOutlineIcon,
@@ -77,13 +79,18 @@ const Login: React.FC = () => {
 								id={field.id}
 								name={field.name}
 								type={field.type}
+								autoFocus={field.autoFocus}
 								isRequired={field.isRequired}
 								placeholder={field.placeholder}
 								icon={field.icon}
 							/>
 						))}
 					</div>
-					<button type="submit">{t('login.submit')}</button>
+					<Button
+						labelKey={'login.submit'}
+						id={'login-submit'}
+						type={'submit'}
+					/>
 				</form>
 			</div>
 		</div>
