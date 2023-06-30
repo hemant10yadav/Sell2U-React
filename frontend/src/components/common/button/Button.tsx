@@ -1,7 +1,7 @@
 import { React, useTranslation } from '../../../imports/CommonImports';
 import { IButton } from '../../../models/interface';
 
-const fixedBtnClass = ''
+const fixedBtnClass = '';
 const Button: React.FC<IButton> = ({
 	labelKey,
 	id,
