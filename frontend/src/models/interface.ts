@@ -1,4 +1,4 @@
-import { ChangeEvent, React } from '../imports/CommonImports';
+import { ChangeEvent, React } from '../imports/commonImports';
 
 export interface IToken {
 	value: string;

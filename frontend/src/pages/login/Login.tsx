@@ -1,16 +1,20 @@
-import {
-	useTranslation,
-	React,
-	useState,
-	ChangeEvent,
-} from '../../imports/CommonImports';
-import Input from '../../components/common/input/Input';
 import './Login.css';
-import PasswordIcon from '@mui/icons-material/Password';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import LoginIcon from '@mui/icons-material/Login';
-import APIService from '../../services/ApiService';
-import Button from '../../components/common/button/Button';
+import {
+	APIService,
+	ChangeEvent,
+	React,
+	toast,
+	useState,
+	useTranslation,
+	z,
+	ZodError,
+} from '../../imports/commonImports';
+import {
+	AccountCircleIcon,
+	LoginIcon,
+	PasswordIcon,
+} from '../../imports/imageLogoImports';
+import { Button, Input } from '../../imports/componentsImportS';
 
 const Login: React.FC = () => {
 	const { t } = useTranslation();
@@ -18,15 +22,14 @@ const Login: React.FC = () => {
 	const loginFields = [
 		{
 			labelText: t('login.email'),
-			labelFor: 'email-address',
-			id: 'email-address',
-			name: 'email',
-			type: 'email',
-			autoComplete: 'email',
+			labelFor: 'emailOrUsername',
+			id: 'emailOrUsername',
+			name: 'emailOrUsername',
+			type: 'text',
 			autoFocus: true,
 			isRequired: true,
-			placeholder: t('login.email'),
-			icon: MailOutlineIcon,
+			placeholder: t('login.emailOrUsername'),
+			icon: AccountCircleIcon,
 		},
 		{
 			labelText: t('login.password'),
@@ -41,35 +44,71 @@ const Login: React.FC = () => {
 		},
 	];
 
+	const loginFormSchema = z.object({
+		emailOrUsername: z.coerce
+			.string()
+			.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+		password: z.coerce
+			.string()
+			.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+	});
+
 	const fieldsState: { [key: string]: string } = {};
 	loginFields.forEach((field) => {
 		fieldsState[field.id] = '';
 	});
 
 	const [loginState, setLoginState] = useState(fieldsState);
+	const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
+		delete fieldErrors[e.target.id];
+		setFieldErrors(fieldErrors);
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		void APIService.getInstance().post(
-			'/auth/login',
-			{
-				emailOrUsername: loginState['email-address'],
-				password: loginState.password,
-			},
-			true
-		);
+		void (async () => {
+			e.preventDefault();
+			try {
+				loginFormSchema.parse(loginState);
+
+				const myProm = APIService.getInstance().post(
+					'/auth/login',
+					{
+						emailOrUsername: loginState['email-address'],
+						password: loginState.password,
+					},
+					true
+				);
+
+				await toast
+					.promise(myProm, {
+						loading: 'Loading',
+						success: 'Got the data',
+						error: 'Error when fetching',
+					})
+					.then((data) => {});
+			} catch (error: unknown) {
+				if (error instanceof ZodError) {
+					error.errors.map((err) => {
+						const key = err.path[0];
+						setFieldErrors((prevErrors) => ({
+							...prevErrors,
+							[key]: err.message,
+						}));
+					});
+				}
+			}
+		})();
 	};
 
 	return (
 		<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 width p-6 rounded-2xl">
 			<h1 className="text-center text-2xl font-semibold">{t('login.title')}</h1>
 			<div>
-				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-					<div className="-space-y-px">
+				<form className="mt-8" onSubmit={handleSubmit}>
+					<div>
 						{loginFields.map((field) => (
 							<Input
 								key={field.id}
@@ -81,9 +120,10 @@ const Login: React.FC = () => {
 								name={field.name}
 								type={field.type}
 								autoFocus={field.autoFocus}
-								isRequired={field.isRequired}
 								placeholder={field.placeholder}
 								icon={field.icon}
+								errorMessage={fieldErrors[field.id]}
+								customClass={'bg-transparent'}
 							/>
 						))}
 					</div>
@@ -96,6 +136,7 @@ const Login: React.FC = () => {
 						rounded={'rounded-full'}
 						color={'primary'}
 						icon={LoginIcon}
+						customClass={'mt-10'}
 					/>
 				</form>
 			</div>

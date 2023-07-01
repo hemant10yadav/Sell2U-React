@@ -1,5 +1,5 @@
 .custom-input {
-	box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+	box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 }
 
 .fixed-input {
@@ -7,7 +7,6 @@
     focus:outline-0
     border-b-2
     focus:border-blue-500
-    border-stone-300;
 }
 
 .fixed-icon {
@@ -20,5 +19,5 @@
 .fixed-focus-icon {
 	@apply text-blue-500
     scale-110
-    animate-bounce;
+    animate-spin;
 }

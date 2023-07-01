@@ -3,7 +3,7 @@ import {
 	React,
 	useTranslation,
 	classNames,
-} from '../../../imports/CommonImports';
+} from '../../../imports/commonImports';
 import { IButton, IButtonCssMap } from '../../../models/interface';
 
 const buttonCssMap: IButtonCssMap = {

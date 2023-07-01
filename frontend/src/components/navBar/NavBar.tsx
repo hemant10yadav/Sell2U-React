@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { React, useTranslation } from '../../imports/CommonImports';
+import { React, useTranslation } from '../../imports/commonImports';
 import appLogo from '../../assets/logo&Images/sell2u-logo.png';
 import './NavBar.css';
 

@@ -2,6 +2,7 @@
   "login": {
     "title": "Welcome Back!",
     "email": "Email address",
+    "emailOrUsername": "Email address or username",
     "password": "Password",
     "submit": "Submit",
     "emailRequired": "Email is required.",
@@ -15,5 +16,8 @@
   },
   "app": {
     "logo": "logo"
+  },
+  "formErrors": {
+    "fieldIsEmpty": "Required field."
   }
 }
