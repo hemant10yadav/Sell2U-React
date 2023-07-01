@@ -8,6 +8,7 @@ import Input from '../../components/common/input/Input';
 import './Login.css';
 import PasswordIcon from '@mui/icons-material/Password';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LoginIcon from '@mui/icons-material/Login';
 import APIService from '../../services/ApiService';
 import Button from '../../components/common/button/Button';
 
@@ -90,6 +91,11 @@ const Login: React.FC = () => {
 						labelKey={'login.submit'}
 						id={'login-submit'}
 						type={'submit'}
+						width={'w-full'}
+						outlineBtn={false}
+						rounded={'rounded-full'}
+						color={'primary'}
+						icon={LoginIcon}
 					/>
 				</form>
 			</div>
