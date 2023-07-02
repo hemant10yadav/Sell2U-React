@@ -10,7 +10,13 @@
 		"loginSuccess": "You are now logged in successfully."
 	},
 	"signup": {
-		"title": "Signup"
+		"title": "Signup",
+		"email": "email@example.com",
+		"password": "Password",
+		"firstName": "First name",
+		"lastName": "Last name",
+		"username": "Username",
+		"confirmPassword": "Confirm password"
 	},
 	"home": {
 		"title": "Home"

@@ -2,6 +2,7 @@ import './Login.css';
 import {
 	APIService,
 	ChangeEvent,
+	NavigateFunction,
 	React,
 	t,
 	toast,
@@ -16,6 +17,10 @@ import {
 	VisibilityIcon,
 } from '../../imports/imageLogoImports';
 import { Button, Input } from '../../imports/componentsImportS';
+import { AxiosResponse } from 'axios';
+import { IRoot, IUser } from '../../models/interface';
+import LocalStorageService from '../../services/LocalStorageService';
+import { useNavigate } from 'react-router-dom';
 
 const loginFields = [
 	{
@@ -43,6 +48,11 @@ const loginFields = [
 	},
 ];
 
+const saveData = (data: IRoot) => {
+	LocalStorageService.getInstance().setToken(data.token);
+	LocalStorageService.getInstance().save<IUser>('user', data.user);
+};
+
 const fieldsState: { [key: string]: string } = {};
 
 const loginFormSchema = z.object({
@@ -55,6 +65,7 @@ const loginFormSchema = z.object({
 });
 
 const Login: React.FC = () => {
+	const navigate: NavigateFunction = useNavigate();
 	const [loginState, setLoginState] = useState(fieldsState);
 	const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
@@ -74,9 +85,11 @@ const Login: React.FC = () => {
 			try {
 				loginFormSchema.parse(loginState);
 				await APIService.getInstance()
-					.post('/auth/login', loginState, true)
-					.then((data) => {
+					.post<IRoot>('/auth/login', loginState, true)
+					.then((response: AxiosResponse<IRoot>) => {
 						toast.success(t('login.loginSuccess'));
+						saveData(response.data);
+						navigate('/');
 					});
 			} catch (error: unknown) {
 				if (error instanceof ZodError) {

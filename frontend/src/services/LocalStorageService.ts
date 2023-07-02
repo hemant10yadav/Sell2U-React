@@ -13,7 +13,7 @@ class LocalStorageService {
 	}
 
 	public getToken(): IToken {
-		return <IToken>this.getInLocalStorage('token');
+		return <IToken>this.get('token');
 	}
 
 	public setToken(value: string) {
@@ -21,14 +21,14 @@ class LocalStorageService {
 			timestamp: new Date(),
 			value,
 		};
-		this.saveInLocalStorage('token', tokenObject);
+		this.save('token', tokenObject);
 	}
 
-	public saveInLocalStorage<T>(key: string, value: T) {
+	public save<T>(key: string, value: T) {
 		this.storage.setItem(key, JSON.stringify(value));
 	}
 
-	public getInLocalStorage<T>(key: string): T | null {
+	public get<T>(key: string): T | null {
 		const value = this.storage.getItem(key);
 		if (value) {
 			let returnValue;

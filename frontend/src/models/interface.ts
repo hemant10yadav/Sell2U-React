@@ -46,3 +46,18 @@ export interface IApiError {
 	status: number;
 	message: string;
 }
+
+export interface IRoot {
+	token: string;
+	user: IUser;
+}
+
+export interface IUser {
+	_id: string;
+	firstName: string;
+	lastName: string;
+	username: string;
+	email: string;
+	createdAt: string;
+	updatedAt: string;
+}
