@@ -42,7 +42,7 @@ const toasterOptions: DefaultToastOptions = {
 
 function App() {
 	return (
-		<div className="App app-bg-gradient min-h-screen">
+		<div className="App app-bg-gradient min-h-screen font-sans">
 			<div>
 				<NavBar />
 			</div>

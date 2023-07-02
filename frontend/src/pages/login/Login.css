@@ -1,4 +1,4 @@
 .width {
-  width: 30rem;
-  background: transparent;
+	width: 30rem;
+	max-width: 30rem;
 }

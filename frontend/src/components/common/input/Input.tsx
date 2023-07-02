@@ -21,7 +21,7 @@ const Input: React.FC<IInputProps> = ({
 	const [focus, setFocus] = useState<boolean>(false);
 	const [inputType, setInputType] = useState<string>(type);
 	const inputCss = classNames(
-		'fixed-input',
+		'fixed-input focus:text-blue-500',
 		customClass,
 		IconComponent ? 'p-2 pl-8' : 'p-2',
 		EndIconComponent ? 'pe-8' : '',
@@ -34,7 +34,7 @@ const Input: React.FC<IInputProps> = ({
 	);
 
 	return (
-		<div className="my-5">
+		<div className="mt-5">
 			<label htmlFor={labelFor} className="sr-only">
 				{labelText}
 			</label>

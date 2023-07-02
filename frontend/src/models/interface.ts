@@ -45,6 +45,15 @@ export interface IButtonCssMap {
 export interface IApiError {
 	status: number;
 	message: string;
+	error?: [IError];
+}
+
+export interface IError {
+	location: string;
+	msg: string;
+	path: string;
+	type: string;
+	value: string;
 }
 
 export interface IRoot {
@@ -60,4 +69,8 @@ export interface IUser {
 	email: string;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface IFieldType {
+	[key: string]: string;
 }

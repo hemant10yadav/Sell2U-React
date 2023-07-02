@@ -3,7 +3,7 @@
 }
 
 .fixed-input {
-	@apply w-full
+	@apply
     focus:outline-0
     border-b-2
     focus:border-blue-500

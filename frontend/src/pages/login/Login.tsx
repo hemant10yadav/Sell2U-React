@@ -16,9 +16,9 @@ import {
 	PasswordIcon,
 	VisibilityIcon,
 } from '../../imports/imageLogoImports';
-import { Button, Input } from '../../imports/componentsImportS';
+import { Button, Input } from '../../imports/componentsImports';
 import { AxiosResponse } from 'axios';
-import { IRoot, IUser } from '../../models/interface';
+import { IFieldType, IRoot, IUser } from '../../models/interface';
 import LocalStorageService from '../../services/LocalStorageService';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,21 +53,23 @@ const saveData = (data: IRoot) => {
 	LocalStorageService.getInstance().save<IUser>('user', data.user);
 };
 
-const fieldsState: { [key: string]: string } = {};
+const fieldsState: IFieldType = {};
 
 const loginFormSchema = z.object({
 	emailOrUsername: z.coerce
 		.string()
+		.trim()
 		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
 	password: z.coerce
 		.string()
+		.trim()
 		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
 });
 
 const Login: React.FC = () => {
 	const navigate: NavigateFunction = useNavigate();
-	const [loginState, setLoginState] = useState(fieldsState);
-	const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+	const [loginState, setLoginState] = useState<IFieldType>(fieldsState);
+	const [fieldErrors, setFieldErrors] = useState<IFieldType>({});
 
 	loginFields.forEach((field) => {
 		fieldsState[field.id] = '';
@@ -80,8 +82,8 @@ const Login: React.FC = () => {
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
 		void (async () => {
-			e.preventDefault();
 			try {
 				loginFormSchema.parse(loginState);
 				await APIService.getInstance()
@@ -106,9 +108,11 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 width p-6 rounded-2xl">
-			<h1 className="text-center text-2xl font-semibold">{t('login.title')}</h1>
-			<div>
+		<div className="flex full-height items-center">
+			<div className="width shadow-card mx-auto p-8">
+				<h1 className="text-center text-2xl font-semibold">
+					{t('login.welcome')}
+				</h1>
 				<form className="mt-8" onSubmit={handleSubmit}>
 					<div>
 						{loginFields.map((field) => (
@@ -125,7 +129,7 @@ const Login: React.FC = () => {
 								placeholder={field.placeholder}
 								icon={field.icon}
 								errorMessage={fieldErrors[field.id]}
-								customClass={'bg-transparent'}
+								customClass={'bg-transparent w-full'}
 								endLineIcon={field.endLineIcon}
 							/>
 						))}

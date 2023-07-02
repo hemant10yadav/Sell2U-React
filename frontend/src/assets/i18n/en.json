@@ -1,6 +1,7 @@
 {
 	"login": {
-		"title": "Welcome Back!",
+		"title": "Login",
+		"welcome": "Welcome Back!",
 		"email": "Email address",
 		"emailOrUsername": "Email address or username",
 		"password": "Password",
@@ -16,16 +17,22 @@
 		"firstName": "First name",
 		"lastName": "Last name",
 		"username": "Username",
-		"confirmPassword": "Confirm password"
+		"confirmPassword": "Confirm password",
+		"success": "Account created successfully."
 	},
 	"home": {
-		"title": "Home"
+		"title": "WIP on signup and login"
 	},
 	"app": {
 		"logo": "logo"
 	},
 	"formErrors": {
-		"fieldIsEmpty": "Required field."
+		"fieldIsEmpty": "Required field.",
+		"mini4": "Minimum 4 characters required.",
+		"max15": "Maximum 15 characters are allowed.",
+		"emailError": "Not a valid email address.",
+		"passwordMismatch": "Password doesn't match.",
+		"specialCharNotAllowed": "Special characters not allowed."
 	},
 	"toastMessages": {
 		"wait": "Please wait",

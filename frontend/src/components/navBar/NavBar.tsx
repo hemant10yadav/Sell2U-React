@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
 					alt={t('app.logo')}
 					src={appLogo as string}
 				/>
-				<span className="float-right flex gap-2">
+				<span className="float-right flex gap-2 text-white">
 					<Link to="/login">{t('login.title')}</Link>
 					<Link to="/signup">{t('signup.title')}</Link>
 				</span>

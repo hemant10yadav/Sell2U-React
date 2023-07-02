@@ -1,5 +1,13 @@
-
 .app-bg-gradient {
-    background: rgb(255,254,224);
-    background: linear-gradient(120deg, rgba(255,254,224,1) 0%, rgba(196,223,223,1) 100%);
+	background: ghostwhite;
+}
+
+.shadow-card {
+	border-radius: 30px;
+	background: white;
+	box-shadow: 30px 30px 60px #a1a1a1, -30px -30px 60px #ffffff;
+}
+
+.full-height {
+	height: calc(100vh - 54px);
 }

@@ -4,5 +4,5 @@
 }
 
 .app-bg-color {
-  background: #9ac5f4;
+  @apply bg-blue-500;
 }
