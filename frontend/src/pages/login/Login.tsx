@@ -3,9 +3,9 @@ import {
 	APIService,
 	ChangeEvent,
 	React,
+	t,
 	toast,
 	useState,
-	useTranslation,
 	z,
 	ZodError,
 } from '../../imports/commonImports';
@@ -13,53 +13,54 @@ import {
 	AccountCircleIcon,
 	LoginIcon,
 	PasswordIcon,
+	VisibilityIcon,
 } from '../../imports/imageLogoImports';
 import { Button, Input } from '../../imports/componentsImportS';
 
+const loginFields = [
+	{
+		labelText: t('login.email'),
+		labelFor: 'emailOrUsername',
+		id: 'emailOrUsername',
+		name: 'emailOrUsername',
+		type: 'text',
+		autoFocus: true,
+		isRequired: true,
+		placeholder: t('login.emailOrUsername'),
+		icon: AccountCircleIcon,
+	},
+	{
+		labelText: t('login.password'),
+		labelFor: 'password',
+		id: 'password',
+		name: 'password',
+		type: 'password',
+		autoComplete: 'current-password',
+		isRequired: true,
+		placeholder: t('login.password'),
+		icon: PasswordIcon,
+		endLineIcon: VisibilityIcon,
+	},
+];
+
+const fieldsState: { [key: string]: string } = {};
+
+const loginFormSchema = z.object({
+	emailOrUsername: z.coerce
+		.string()
+		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+	password: z.coerce
+		.string()
+		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+});
+
 const Login: React.FC = () => {
-	const { t } = useTranslation();
+	const [loginState, setLoginState] = useState(fieldsState);
+	const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
-	const loginFields = [
-		{
-			labelText: t('login.email'),
-			labelFor: 'emailOrUsername',
-			id: 'emailOrUsername',
-			name: 'emailOrUsername',
-			type: 'text',
-			autoFocus: true,
-			isRequired: true,
-			placeholder: t('login.emailOrUsername'),
-			icon: AccountCircleIcon,
-		},
-		{
-			labelText: t('login.password'),
-			labelFor: 'password',
-			id: 'password',
-			name: 'password',
-			type: 'password',
-			autoComplete: 'current-password',
-			isRequired: true,
-			placeholder: t('login.password'),
-			icon: PasswordIcon,
-		},
-	];
-
-	const loginFormSchema = z.object({
-		emailOrUsername: z.coerce
-			.string()
-			.nonempty({ message: t('formErrors.fieldIsEmpty') }),
-		password: z.coerce
-			.string()
-			.nonempty({ message: t('formErrors.fieldIsEmpty') }),
-	});
-
-	const fieldsState: { [key: string]: string } = {};
 	loginFields.forEach((field) => {
 		fieldsState[field.id] = '';
 	});
-
-	const [loginState, setLoginState] = useState(fieldsState);
-	const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
@@ -72,23 +73,11 @@ const Login: React.FC = () => {
 			e.preventDefault();
 			try {
 				loginFormSchema.parse(loginState);
-
-				const myProm = APIService.getInstance().post(
-					'/auth/login',
-					{
-						emailOrUsername: loginState['email-address'],
-						password: loginState.password,
-					},
-					true
-				);
-
-				await toast
-					.promise(myProm, {
-						loading: 'Loading',
-						success: 'Got the data',
-						error: 'Error when fetching',
-					})
-					.then((data) => {});
+				await APIService.getInstance()
+					.post('/auth/login', loginState, true)
+					.then((data) => {
+						toast.success(t('login.loginSuccess'));
+					});
 			} catch (error: unknown) {
 				if (error instanceof ZodError) {
 					error.errors.map((err) => {
@@ -124,20 +113,22 @@ const Login: React.FC = () => {
 								icon={field.icon}
 								errorMessage={fieldErrors[field.id]}
 								customClass={'bg-transparent'}
+								endLineIcon={field.endLineIcon}
 							/>
 						))}
 					</div>
-					<Button
-						labelKey={'login.submit'}
-						id={'login-submit'}
-						type={'submit'}
-						width={'w-full'}
-						outlineBtn={false}
-						rounded={'rounded-full'}
-						color={'primary'}
-						icon={LoginIcon}
-						customClass={'mt-10'}
-					/>
+					<div className="flex justify-center">
+						<Button
+							labelKey={'login.submit'}
+							id={'login-submit'}
+							type={'submit'}
+							outlineBtn={false}
+							rounded={'rounded-full'}
+							color={'primary'}
+							icon={LoginIcon}
+							customClass={'mt-10 w-1/2'}
+						/>
+					</div>
 				</form>
 			</div>
 		</div>

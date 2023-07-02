@@ -6,8 +6,9 @@ import axios, {
 	InternalAxiosRequestConfig,
 } from 'axios';
 import LocalStorageService from './LocalStorageService';
-import { IToken } from '../models/interface';
+import { IApiError, IToken } from '../models/interface';
 import { BASE_URL } from '../models/constants';
+import { handleError } from './ErrorHandler';
 
 class APIService {
 	private static instance: APIService;
@@ -39,18 +40,11 @@ class APIService {
 			(response: AxiosResponse): AxiosResponse => {
 				return response;
 			},
-			(error: AxiosError) => {
+			(error: AxiosError<IApiError>) => {
+				handleError(error);
 				return Promise.reject(error);
 			}
 		);
-	}
-
-	private getSkipInterceptorHeader(): AxiosRequestConfig {
-		return {
-			headers: {
-				skip: true,
-			},
-		};
 	}
 
 	public static getInstance(): APIService {
@@ -75,6 +69,14 @@ class APIService {
 			data,
 			skipAuth ? this.getSkipInterceptorHeader() : {}
 		);
+	}
+
+	private getSkipInterceptorHeader(): AxiosRequestConfig {
+		return {
+			headers: {
+				skip: true,
+			},
+		};
 	}
 }
 

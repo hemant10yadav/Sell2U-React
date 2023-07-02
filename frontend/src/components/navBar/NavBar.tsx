@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
-import { React, useTranslation } from '../../imports/commonImports';
+import { React, t } from '../../imports/commonImports';
 import appLogo from '../../assets/logo&Images/sell2u-logo.png';
 import './NavBar.css';
 
 const NavBar: React.FC = () => {
-	const { t } = useTranslation();
-
 	return (
 		<section className="app-bg-color p-3">
 			<div>

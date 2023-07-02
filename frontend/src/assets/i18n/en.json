@@ -1,23 +1,31 @@
 {
-  "login": {
-    "title": "Welcome Back!",
-    "email": "Email address",
-    "emailOrUsername": "Email address or username",
-    "password": "Password",
-    "submit": "Submit",
-    "emailRequired": "Email is required.",
-    "passwordRequired": "Password is required."
-  },
-  "signup": {
-    "title": "Signup"
-  },
-  "home": {
-    "title": "Home"
-  },
-  "app": {
-    "logo": "logo"
-  },
-  "formErrors": {
-    "fieldIsEmpty": "Required field."
-  }
+	"login": {
+		"title": "Welcome Back!",
+		"email": "Email address",
+		"emailOrUsername": "Email address or username",
+		"password": "Password",
+		"submit": "Submit",
+		"emailRequired": "Email is required.",
+		"passwordRequired": "Password is required.",
+		"loginSuccess": "You are now logged in successfully."
+	},
+	"signup": {
+		"title": "Signup"
+	},
+	"home": {
+		"title": "Home"
+	},
+	"app": {
+		"logo": "logo"
+	},
+	"formErrors": {
+		"fieldIsEmpty": "Required field."
+	},
+	"toastMessages": {
+		"wait": "Please wait",
+		"unknownError": "Something went wrong.",
+		"badRequest": "Bad request",
+		"badNetwork": "Bad network",
+		"timeoutError": "Timeout error"
+	}
 }

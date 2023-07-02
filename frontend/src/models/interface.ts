@@ -18,13 +18,13 @@ export interface IInputProps {
 	placeholder?: string;
 	customClass?: string;
 	icon?: React.ComponentType<{ className?: string }>;
+	endLineIcon?: React.ComponentType<{ className?: string }>;
 	errorMessage?: string;
 }
 
 export interface IButton {
 	labelKey: string;
 	handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-	width?: 'w-auto' | 'w-full';
 	disabled?: boolean;
 	customClass?: string;
 	icon?: React.ComponentType<{ className?: string }>;
@@ -40,4 +40,9 @@ export interface IButtonCssMap {
 		outlineBtn: string;
 		btn: string;
 	};
+}
+
+export interface IApiError {
+	status: number;
+	message: string;
 }

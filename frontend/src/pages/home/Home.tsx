@@ -1,7 +1,6 @@
-import { useTranslation, React } from '../../imports/commonImports';
+import { React, t } from '../../imports/commonImports';
 
 const Home: React.FC = () => {
-	const { t } = useTranslation();
 	return (
 		<div className="text-3xl font-bold underline">
 			<h1>{t('home.title')}</h1>

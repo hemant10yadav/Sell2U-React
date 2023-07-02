@@ -1,9 +1,5 @@
 import './button.css';
-import {
-	React,
-	useTranslation,
-	classNames,
-} from '../../../imports/commonImports';
+import { classNames, React, t } from '../../../imports/commonImports';
 import { IButton, IButtonCssMap } from '../../../models/interface';
 
 const buttonCssMap: IButtonCssMap = {
@@ -24,7 +20,6 @@ const Button: React.FC<IButton> = ({
 	labelKey,
 	id,
 	handleClick,
-	width = 'w-auto',
 	rounded = 'rounded',
 	outlineBtn = true,
 	color = 'primary',
@@ -36,13 +31,11 @@ const Button: React.FC<IButton> = ({
 }) => {
 	const btnCss: string = classNames(
 		'fixed-btn',
-		width,
 		rounded,
 		disabled ? 'cursor-not-allowed opacity-75' : '',
 		outlineBtn ? buttonCssMap[color].outlineBtn : buttonCssMap[color].btn,
 		customClass
 	);
-	const { t } = useTranslation();
 	return (
 		<button
 			id={id}
