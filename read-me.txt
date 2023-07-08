@@ -1,7 +1,3 @@
-Run backend
-1. npm i
-2. npm run dev
-
 Run frontend
 1. npm i
 2. npm start
