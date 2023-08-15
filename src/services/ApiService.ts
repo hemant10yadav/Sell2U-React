@@ -6,8 +6,8 @@ import axios, {
 	InternalAxiosRequestConfig,
 } from 'axios';
 import LocalStorageService from './LocalStorageService';
-import { IApiError, IToken } from '../models/interface';
-import { BASE_URL } from '../models/constants';
+import { IApiError, IToken } from '../types/interface';
+import { BASE_URL } from '../types/constants';
 import { handleError } from './ErrorHandler';
 
 class APIService {
@@ -67,6 +67,17 @@ class APIService {
 		return this.api.post<T>(
 			url,
 			data,
+			skipAuth ? this.getSkipInterceptorHeader() : {}
+		);
+	}
+
+	public async delete<T>(
+		url: string,
+		data: object,
+		skipAuth = false
+	): Promise<AxiosResponse<T>> {
+		return this.api.delete<T>(
+			url,
 			skipAuth ? this.getSkipInterceptorHeader() : {}
 		);
 	}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { React, t } from '../../imports/commonImports';
+import { React, translate } from '../../imports/commonImports';
 import appLogo from '../../assets/logo&Images/sell2u-logo.png';
 import './NavBar.css';
 
@@ -9,12 +9,12 @@ const NavBar: React.FC = () => {
 			<div>
 				<img
 					className="inline fit-logo cursor-pointer"
-					alt={t('app.logo')}
+					alt={translate('app.logo')}
 					src={appLogo as string}
 				/>
 				<span className="float-right flex gap-2 text-white">
-					<Link to="/login">{t('login.title')}</Link>
-					<Link to="/signup">{t('signup.title')}</Link>
+					<Link to="/login">{translate('login.title')}</Link>
+					<Link to="/signup">{translate('signup.title')}</Link>
 				</span>
 			</div>
 		</section>

@@ -2,6 +2,7 @@ import './App.css';
 import AppRoute from './AppRoute';
 import NavBar from './components/navBar/NavBar';
 import { DefaultToastOptions, Toaster } from 'react-hot-toast';
+import { NavContextProvider } from './context/NavContext';
 
 const toasterOptions: DefaultToastOptions = {
 	duration: 500,
@@ -43,11 +44,17 @@ const toasterOptions: DefaultToastOptions = {
 function App() {
 	return (
 		<div className="App app-bg-gradient min-h-screen font-sans">
-			<div>
-				<NavBar />
-			</div>
-			<AppRoute />
-			<Toaster position="top-right" gutter={8} toastOptions={toasterOptions} />
+			<NavContextProvider>
+				<div>
+					<NavBar />
+				</div>
+				<AppRoute />
+				<Toaster
+					position="top-right"
+					gutter={8}
+					toastOptions={toasterOptions}
+				/>
+			</NavContextProvider>
 		</div>
 	);
 }

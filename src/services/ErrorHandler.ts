@@ -1,5 +1,5 @@
-import { IApiError } from '../models/interface';
-import { AxiosError, t, toast } from '../imports/commonImports';
+import { IApiError } from '../types/interface';
+import { AxiosError, toast, translate } from '../imports/commonImports';
 
 export const handleError = (error: AxiosError<IApiError>) => {
 	let messageKey: string;
@@ -16,5 +16,5 @@ export const handleError = (error: AxiosError<IApiError>) => {
 	} else {
 		messageKey = 'toastMessages.badRequest';
 	}
-	toast.error(t(messageKey));
+	toast.error(translate(messageKey));
 };

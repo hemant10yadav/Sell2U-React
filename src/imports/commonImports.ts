@@ -8,7 +8,7 @@ import { handleError } from '../services/ErrorHandler';
 import i18n from '../assets/i18n/i18nConfig';
 import { NavigateFunction } from 'react-router-dom';
 
-const t = i18n.t;
+const translate = i18n.t;
 
 export {
 	React,
@@ -20,6 +20,6 @@ export {
 	ZodError,
 	toast,
 	handleError,
-	t,
+	translate,
 };
 export type { NavigateFunction, ChangeEvent, AxiosError, AxiosResponse };

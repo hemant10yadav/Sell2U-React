@@ -1,6 +1,6 @@
 import './Input.css';
 import { classNames, React, useState } from '../../../imports/commonImports';
-import { IInputProps } from '../../../models/interface';
+import { IInputProps } from '../../../types/interface';
 
 const Input: React.FC<IInputProps> = ({
 	handleChange,
@@ -35,9 +35,6 @@ const Input: React.FC<IInputProps> = ({
 
 	return (
 		<div className="mt-5">
-			<label htmlFor={labelFor} className="sr-only">
-				{labelText}
-			</label>
 			<div className="relative">
 				{IconComponent && (
 					<div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
@@ -57,6 +54,11 @@ const Input: React.FC<IInputProps> = ({
 					onFocus={() => setFocus(true)}
 					onBlur={() => setFocus(false)}
 				/>
+				{type === 'radio' && (
+					<label htmlFor={labelFor} className=" ms-2">
+						{labelText}
+					</label>
+				)}
 				{EndIconComponent && (
 					<div
 						onClick={() => setInputType('text')}

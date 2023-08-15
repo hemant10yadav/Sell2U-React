@@ -8,7 +8,9 @@
 		"submit": "Submit",
 		"emailRequired": "Email is required.",
 		"passwordRequired": "Password is required.",
-		"loginSuccess": "You are now logged in successfully."
+		"loginSuccess": "You are now logged in successfully.",
+		"forgotPassword": "Forgot your password?",
+		"rememberMe": "Remember me"
 	},
 	"signup": {
 		"title": "Signup",

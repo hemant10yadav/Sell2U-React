@@ -1,9 +1,9 @@
-import { React, t } from '../../imports/commonImports';
+import { React, translate } from '../../imports/commonImports';
 
 const Home: React.FC = () => {
 	return (
 		<div className="text-3xl font-bold underline">
-			<h1>{t('home.title')}</h1>
+			<h1>{translate('home.title')}</h1>
 		</div>
 	);
 };

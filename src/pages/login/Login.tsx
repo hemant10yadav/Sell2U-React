@@ -1,11 +1,9 @@
 import './Login.css';
 import {
-	APIService,
 	ChangeEvent,
 	NavigateFunction,
 	React,
-	t,
-	toast,
+	translate,
 	useState,
 	z,
 	ZodError,
@@ -16,42 +14,37 @@ import {
 	PasswordIcon,
 	VisibilityIcon,
 } from '../../imports/imageLogoImports';
-import { Button, Input } from '../../imports/componentsImports';
-import { AxiosResponse } from 'axios';
-import { IFieldType, IRoot, IUser } from '../../models/interface';
-import LocalStorageService from '../../services/LocalStorageService';
+import { Button, Input } from '../../components/common/componentsImports';
+import { IFieldType } from '../../types/interface';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { NavContext } from '../../context/NavContext';
 
 const loginFields = [
 	{
-		labelText: t('login.email'),
+		labelText: translate('login.email'),
 		labelFor: 'emailOrUsername',
 		id: 'emailOrUsername',
 		name: 'emailOrUsername',
 		type: 'text',
 		autoFocus: true,
 		isRequired: true,
-		placeholder: t('login.emailOrUsername'),
+		placeholder: translate('login.emailOrUsername'),
 		icon: AccountCircleIcon,
 	},
 	{
-		labelText: t('login.password'),
+		labelText: translate('login.password'),
 		labelFor: 'password',
 		id: 'password',
 		name: 'password',
 		type: 'password',
 		autoComplete: 'current-password',
 		isRequired: true,
-		placeholder: t('login.password'),
+		placeholder: translate('login.password'),
 		icon: PasswordIcon,
 		endLineIcon: VisibilityIcon,
 	},
 ];
-
-const saveData = (data: IRoot) => {
-	LocalStorageService.getInstance().setToken(data.token);
-	LocalStorageService.getInstance().save<IUser>('user', data.user);
-};
 
 const fieldsState: IFieldType = {};
 
@@ -59,14 +52,15 @@ const loginFormSchema = z.object({
 	emailOrUsername: z.coerce
 		.string()
 		.trim()
-		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+		.nonempty({ message: translate('formErrors.fieldIsEmpty') }),
 	password: z.coerce
 		.string()
 		.trim()
-		.nonempty({ message: t('formErrors.fieldIsEmpty') }),
+		.nonempty({ message: translate('formErrors.fieldIsEmpty') }),
 });
 
 const Login: React.FC = () => {
+	const { login } = useContext(NavContext);
 	const navigate: NavigateFunction = useNavigate();
 	const [loginState, setLoginState] = useState<IFieldType>(fieldsState);
 	const [fieldErrors, setFieldErrors] = useState<IFieldType>({});
@@ -86,13 +80,9 @@ const Login: React.FC = () => {
 		void (async () => {
 			try {
 				loginFormSchema.parse(loginState);
-				await APIService.getInstance()
-					.post<IRoot>('/auth/login', loginState, true)
-					.then((response: AxiosResponse<IRoot>) => {
-						toast.success(t('login.loginSuccess'));
-						saveData(response.data);
-						navigate('/');
-					});
+				await login(loginState).then(() => {
+					navigate('/');
+				});
 			} catch (error: unknown) {
 				if (error instanceof ZodError) {
 					error.errors.map((err) => {
@@ -111,7 +101,7 @@ const Login: React.FC = () => {
 		<div className="flex full-height items-center">
 			<div className="width shadow-card mx-auto p-8">
 				<h1 className="text-center text-2xl font-semibold">
-					{t('login.welcome')}
+					{translate('login.welcome')}
 				</h1>
 				<form className="mt-8" onSubmit={handleSubmit}>
 					<div>
@@ -133,6 +123,11 @@ const Login: React.FC = () => {
 								endLineIcon={field.endLineIcon}
 							/>
 						))}
+					</div>
+					<div className="mt-4 text-sm text-blue-400">
+						<a className="hover:underline" href="/signup">
+							{translate('login.forgotPassword')}
+						</a>
 					</div>
 					<div className="flex justify-center">
 						<Button

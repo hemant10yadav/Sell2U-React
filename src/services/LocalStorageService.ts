@@ -1,4 +1,4 @@
-import { IToken } from '../models/interface';
+import { IToken } from '../types/interface';
 
 class LocalStorageService {
 	private static instance: LocalStorageService;
@@ -26,6 +26,10 @@ class LocalStorageService {
 
 	public save<T>(key: string, value: T) {
 		this.storage.setItem(key, JSON.stringify(value));
+	}
+
+	public clearAll() {
+		this.storage.clear();
 	}
 
 	public get<T>(key: string): T | null {

@@ -1,6 +1,6 @@
 import './button.css';
-import { classNames, React, t } from '../../../imports/commonImports';
-import { IButton, IButtonCssMap } from '../../../models/interface';
+import { classNames, React, translate } from '../../../imports/commonImports';
+import { IButton, IButtonCssMap } from '../../../types/interface';
 
 const buttonCssMap: IButtonCssMap = {
 	primary: {
@@ -46,7 +46,7 @@ const Button: React.FC<IButton> = ({
 			{...rest}
 		>
 			{IconComponent && <IconComponent className="me-2 align-middle" />}
-			<span className="align-middle">{t(labelKey)}</span>
+			<span className="align-middle">{translate(labelKey)}</span>
 		</button>
 	);
 };

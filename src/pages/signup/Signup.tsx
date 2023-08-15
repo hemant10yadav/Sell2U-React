@@ -6,8 +6,8 @@ import {
 	ChangeEvent,
 	NavigateFunction,
 	React,
-	t,
 	toast,
+	translate,
 	useState,
 	z,
 	ZodError,
@@ -21,77 +21,77 @@ import {
 	PasswordIcon,
 	VisibilityIcon,
 } from '../../imports/imageLogoImports';
-import { Input } from '../../imports/componentsImports';
+import { Input } from '../../components/common/componentsImports';
 import Button from '../../components/common/button/Button';
-import { IApiError, IError, IFieldType, IUser } from '../../models/interface';
+import { IApiError, IError, IFieldType, IUser } from '../../types/interface';
 import { useNavigate } from 'react-router-dom';
 
 const signupFields = [
 	{
-		labelText: t('signup.firstName'),
+		labelText: translate('signup.firstName'),
 		labelFor: 'firstName',
 		id: 'firstName',
 		name: 'firstName',
 		type: 'text',
 		autoFocus: true,
 		isRequired: true,
-		placeholder: t('signup.firstName'),
+		placeholder: translate('signup.firstName'),
 		icon: Face5Icon,
 	},
 	{
-		labelText: t('signup.lastName'),
+		labelText: translate('signup.lastName'),
 		labelFor: 'lastName',
 		id: 'lastName',
 		name: 'lastName',
 		type: 'text',
 		autoFocus: true,
 		isRequired: true,
-		placeholder: t('signup.lastName'),
+		placeholder: translate('signup.lastName'),
 		icon: Face6Icon,
 	},
 	{
-		labelText: t('signup.username'),
+		labelText: translate('signup.username'),
 		labelFor: 'username',
 		id: 'username',
 		name: 'username',
 		type: 'text',
 		autoFocus: true,
 		isRequired: true,
-		placeholder: t('signup.username'),
+		placeholder: translate('signup.username'),
 		icon: AccountCircleIcon,
 	},
 	{
-		labelText: t('signup.email'),
+		labelText: translate('signup.email'),
 		labelFor: 'email',
 		id: 'email',
 		name: 'email',
 		type: 'email',
 		autoFocus: true,
 		isRequired: true,
-		placeholder: t('signup.email'),
+		placeholder: translate('signup.email'),
 		icon: MailOutlineIcon,
 	},
 	{
-		labelText: t('signup.password'),
+		labelText: translate('signup.password'),
 		labelFor: 'password',
 		id: 'password',
 		name: 'password',
 		type: 'password',
 		autoComplete: 'current-password',
 		isRequired: true,
-		placeholder: t('signup.password'),
+		placeholder: translate('signup.password'),
 		icon: PasswordIcon,
 		endLineIcon: VisibilityIcon,
 	},
 	{
-		labelText: t('signup.confirmPassword'),
+		labelText: translate('signup.confirmPassword'),
 		labelFor: 'confirm-password',
 		id: 'confirmPassword',
 		name: 'confirmPassword',
 		type: 'password',
 		autoComplete: 'confirmPassword',
 		isRequired: true,
-		placeholder: t('signup.confirmPassword'),
+		placeholder: translate('signup.confirmPassword'),
 		icon: PasswordIcon,
 	},
 ];
@@ -103,30 +103,30 @@ const signupFormSchema = z
 		firstName: z.coerce
 			.string()
 			.trim()
-			.min(5, t('formErrors.mini4'))
-			.max(15, t('formErrors.max15'))
+			.min(5, translate('formErrors.mini4'))
+			.max(15, translate('formErrors.max15'))
 			.regex(nameRegex, {
-				message: t('formErrors.specialCharNotAllowed'),
+				message: translate('formErrors.specialCharNotAllowed'),
 			}),
 		lastName: z.coerce
 			.string()
 			.trim()
-			.min(5, t('formErrors.mini4'))
-			.max(15, t('formErrors.max15'))
+			.min(5, translate('formErrors.mini4'))
+			.max(15, translate('formErrors.max15'))
 			.regex(nameRegex, {
-				message: t('formErrors.specialCharNotAllowed'),
+				message: translate('formErrors.specialCharNotAllowed'),
 			}),
-		username: z.coerce.string().trim().min(5, t('formErrors.mini4')),
+		username: z.coerce.string().trim().min(5, translate('formErrors.mini4')),
 		email: z.coerce
 			.string()
 			.trim()
-			.email(t('formErrors.emailError'))
-			.nonempty(t('formErrors.fieldIsEmpty')),
-		password: z.coerce.string().trim().min(6, t('formErrors.mini4')),
+			.email(translate('formErrors.emailError'))
+			.nonempty(translate('formErrors.fieldIsEmpty')),
+		password: z.coerce.string().trim().min(6, translate('formErrors.mini4')),
 		confirmPassword: z.string().trim(),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
-		message: t('formErrors.passwordMismatch'),
+		message: translate('formErrors.passwordMismatch'),
 		path: ['confirmPassword'],
 	});
 
@@ -156,7 +156,7 @@ const Signup: React.FC = () => {
 					.then(
 						(data: AxiosResponse<IUser>) => {
 							navigate('/');
-							toast.success(t('signup.success'));
+							toast.success(translate('signup.success'));
 						},
 						(error: AxiosError<IApiError>) => {
 							if (error?.response?.data?.error) {
@@ -188,7 +188,7 @@ const Signup: React.FC = () => {
 		<div className="full-height flex items-center justify-center">
 			<form className="width shadow-card p-8" onSubmit={handleSubmit}>
 				<h1 className="text-center text-2xl font-semibold">
-					{t('signup.title')}
+					{translate('signup.title')}
 				</h1>
 				<div className="flex gap-2">
 					{signupFields.map((field) => {
