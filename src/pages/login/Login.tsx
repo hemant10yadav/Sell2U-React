@@ -18,7 +18,7 @@ import { Button, Input } from '../../components/common/componentsImports';
 import { IFieldType } from '../../types/interface';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { NavContext } from '../../context/NavContext';
+import { AppContext } from '../../context/AppContext';
 
 const loginFields = [
 	{
@@ -60,7 +60,7 @@ const loginFormSchema = z.object({
 });
 
 const Login: React.FC = () => {
-	const { login } = useContext(NavContext);
+	const { login } = useContext(AppContext);
 	const navigate: NavigateFunction = useNavigate();
 	const [loginState, setLoginState] = useState<IFieldType>(fieldsState);
 	const [fieldErrors, setFieldErrors] = useState<IFieldType>({});

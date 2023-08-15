@@ -13,7 +13,7 @@ type CartItem = {
 };
 
 // Define the type for the context's value
-type NavContextType = {
+type AppContextType = {
 	cart: CartItem[];
 	wishlist: string[]; // We will store product IDs in the wishlist
 	user: IUser | null;
@@ -30,7 +30,7 @@ type AppContextProviderProps = {
 	children: ReactNode;
 };
 
-const initialContextValue: NavContextType = {
+const initialContextValue: AppContextType = {
 	cart: [],
 	wishlist: [],
 	user: null,
@@ -43,10 +43,10 @@ const initialContextValue: NavContextType = {
 	logout: () => {},
 };
 
-export const NavContext: Context<NavContextType> =
-	createContext<NavContextType>(initialContextValue);
+export const AppContext: Context<AppContextType> =
+	createContext<AppContextType>(initialContextValue);
 
-export const NavContextProvider: React.FC<AppContextProviderProps> = ({
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	children,
 }) => {
 	const [cart, setCart] = useState<CartItem[]>([]);
@@ -101,7 +101,7 @@ export const NavContextProvider: React.FC<AppContextProviderProps> = ({
 			});
 	};
 
-	const contextValue: NavContextType = {
+	const contextValue: AppContextType = {
 		cart,
 		wishlist,
 		user,
@@ -115,6 +115,6 @@ export const NavContextProvider: React.FC<AppContextProviderProps> = ({
 	};
 
 	return (
-		<NavContext.Provider value={contextValue}>{children}</NavContext.Provider>
+		<AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
 	);
 };
