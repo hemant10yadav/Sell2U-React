@@ -7,15 +7,15 @@ import {
 	useState,
 	z,
 	ZodError,
-} from '../../imports/commonImports';
+} from '../../utilities/commonImports';
 import {
 	AccountCircleIcon,
 	LoginIcon,
 	PasswordIcon,
 	VisibilityIcon,
-} from '../../imports/imageLogoImports';
+} from '../../utilities/imageLogoImports';
 import { Button, Input } from '../../components/common/componentsImports';
-import { IFieldType } from '../../types/interface';
+import { IFieldType } from '../../utilities/interface';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';

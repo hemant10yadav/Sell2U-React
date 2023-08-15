@@ -11,7 +11,7 @@ import {
 	useState,
 	z,
 	ZodError,
-} from '../../imports/commonImports';
+} from '../../utilities/commonImports';
 import {
 	AccountCircleIcon,
 	Face5Icon,
@@ -20,10 +20,15 @@ import {
 	MailOutlineIcon,
 	PasswordIcon,
 	VisibilityIcon,
-} from '../../imports/imageLogoImports';
+} from '../../utilities/imageLogoImports';
 import { Input } from '../../components/common/componentsImports';
 import Button from '../../components/common/button/Button';
-import { IApiError, IError, IFieldType, IUser } from '../../types/interface';
+import {
+	IApiError,
+	IError,
+	IFieldType,
+	IUser,
+} from '../../utilities/interface';
 import { useNavigate } from 'react-router-dom';
 
 const signupFields = [

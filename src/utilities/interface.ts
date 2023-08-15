@@ -1,4 +1,4 @@
-import { ChangeEvent, React } from '../imports/commonImports';
+import { ChangeEvent, React } from '../utilities/commonImports';
 import { ProductCategory, ProductSubCategory, Role } from './enum';
 
 export interface IToken {
@@ -110,4 +110,9 @@ export interface IProduct {
 	user: string;
 	createdAt: Date;
 	updatedAt: Date;
+}
+
+export interface IRouteProp {
+	path: string;
+	component: React.ReactNode;
 }

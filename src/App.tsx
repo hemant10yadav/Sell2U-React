@@ -45,9 +45,7 @@ function App() {
 	return (
 		<div className="App app-bg-gradient min-h-screen font-sans">
 			<AppContextProvider>
-				<div>
-					<NavBar />
-				</div>
+				<NavBar />
 				<AppRoute />
 				<Toaster
 					position="top-right"

@@ -1,4 +1,4 @@
-import { React, translate } from '../../imports/commonImports';
+import { React, translate } from '../../utilities/commonImports';
 
 const Home: React.FC = () => {
 	return (
