@@ -1,6 +1,6 @@
 import './Input.css';
-import { classNames, React, useState } from '../../../imports/commonImports';
-import { IInputProps } from '../../../types/interface';
+import { classNames, React, useState } from '../../../utilities/commonImports';
+import { IInputProps } from '../../../utilities/interface';
 
 const Input: React.FC<IInputProps> = ({
 	handleChange,

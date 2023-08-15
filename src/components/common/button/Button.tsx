@@ -1,6 +1,6 @@
 import './button.css';
-import { classNames, React, translate } from '../../../imports/commonImports';
-import { IButton, IButtonCssMap } from '../../../types/interface';
+import { classNames, React, translate } from '../../../utilities/commonImports';
+import { IButton, IButtonCssMap } from '../../../utilities/interface';
 
 const buttonCssMap: IButtonCssMap = {
 	primary: {

@@ -1,4 +1,4 @@
-import { IToken } from '../types/interface';
+import { IToken } from '../utilities/interface';
 
 class LocalStorageService {
 	private static instance: LocalStorageService;

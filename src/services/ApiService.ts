@@ -6,8 +6,8 @@ import axios, {
 	InternalAxiosRequestConfig,
 } from 'axios';
 import LocalStorageService from './LocalStorageService';
-import { IApiError, IToken } from '../types/interface';
-import { BASE_URL } from '../types/constants';
+import { IApiError, IToken } from '../utilities/interface';
+import { BASE_URL } from '../utilities/constants';
 import { handleError } from './ErrorHandler';
 
 class APIService {
@@ -54,8 +54,11 @@ class APIService {
 		return APIService.instance;
 	}
 
-	public async get<T>(url: string): Promise<T> {
-		const response: AxiosResponse<T> = await this.api.get<T>(url);
+	public async get<T>(url: string, skipAuth = false): Promise<T> {
+		const response: AxiosResponse<T> = await this.api.get<T>(
+			url,
+			skipAuth ? this.getSkipInterceptorHeader() : {}
+		);
 		return response.data;
 	}
 

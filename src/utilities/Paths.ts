@@ -1,9 +1,9 @@
 export default class Paths {
 	public static AUTH = '/auth';
 
-	public static SIGNUP = '/signup';
+	public static SIGNUP = `${this.AUTH}/signup`;
 
-	public static LOGIN = '/login';
+	public static LOGIN = `${this.AUTH}/login`;
 
 	public static RESET_PASSWORD = '/reset-password';
 
@@ -15,7 +15,7 @@ export default class Paths {
 
 	public static RESOURCES = '/resources';
 
-	public static CURRENT = '/current';
+	public static CURRENT = `${this.USERS}/current`;
 
 	public static WISHLIST = '/wishlist';
 

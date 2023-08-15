@@ -1,5 +1,5 @@
-import { IApiError } from '../types/interface';
-import { AxiosError, toast, translate } from '../imports/commonImports';
+import { IApiError } from '../utilities/interface';
+import { AxiosError, toast, translate } from '../utilities/commonImports';
 
 export const handleError = (error: AxiosError<IApiError>) => {
 	let messageKey: string;

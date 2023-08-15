@@ -1,7 +1,13 @@
 import { Context, createContext, ReactNode, useState } from 'react';
-import { APIService, React, toast, translate } from '../imports/commonImports';
-import Paths from '../types/Paths';
-import { IFieldType, IRoot, IUser } from '../types/interface';
+import {
+	APIService,
+	React,
+	toast,
+	translate,
+	useEffect,
+} from '../utilities/commonImports';
+import Paths from '../utilities/Paths';
+import { IFieldType, IRoot, IUser } from '../utilities/interface';
 import { AxiosResponse } from 'axios';
 import LocalStorageService from '../services/LocalStorageService';
 
@@ -13,7 +19,7 @@ type CartItem = {
 };
 
 // Define the type for the context's value
-type NavContextType = {
+type AppContextType = {
 	cart: CartItem[];
 	wishlist: string[]; // We will store product IDs in the wishlist
 	user: IUser | null;
@@ -22,7 +28,7 @@ type NavContextType = {
 	removeFromCart: (itemId: string) => void;
 	addToWishlist: (productId: string) => Promise<any>;
 	removeFromWishlist: (productId: string) => Promise<any>;
-	login: (userData: IFieldType) => Promise<any>;
+	login: (userData: IFieldType | null) => Promise<any>;
 	logout: () => void;
 };
 
@@ -30,7 +36,7 @@ type AppContextProviderProps = {
 	children: ReactNode;
 };
 
-const initialContextValue: NavContextType = {
+const initialContextValue: AppContextType = {
 	cart: [],
 	wishlist: [],
 	user: null,
@@ -39,20 +45,55 @@ const initialContextValue: NavContextType = {
 	removeFromCart: () => {},
 	addToWishlist: async (productId: string) => {},
 	removeFromWishlist: async (productId: string) => {},
-	login: async (loginData: IFieldType) => {},
+	login: async (loginData: IFieldType | null) => {},
 	logout: () => {},
 };
 
-export const NavContext: Context<NavContextType> =
-	createContext<NavContextType>(initialContextValue);
+export const AppContext: Context<AppContextType> =
+	createContext<AppContextType>(initialContextValue);
 
-export const NavContextProvider: React.FC<AppContextProviderProps> = ({
+const loginWithUserCredentials = (
+	userCredentials: IFieldType
+): Promise<IUser | void> => {
+	return APIService.getInstance()
+		.post<IRoot>(Paths.LOGIN, userCredentials, true)
+		.then(
+			(response: AxiosResponse<IRoot>) => {
+				toast.success(translate('login.loginSuccess'));
+				LocalStorageService.getInstance().setToken(response.data.token);
+				return response.data.user;
+			},
+			() => {}
+		);
+};
+
+const getCurrentUser = (): Promise<IUser | void> => {
+	if (LocalStorageService.getInstance().getToken()) {
+		return APIService.getInstance().get<IUser>(Paths.CURRENT);
+	}
+	return Promise.resolve();
+};
+
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	children,
 }) => {
 	const [cart, setCart] = useState<CartItem[]>([]);
 	const [wishlist, setWishlist] = useState<string[]>([]);
 	const [user, setUser] = useState<IUser | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (!isLoggedIn) {
+			getCurrentUser()
+				.then((resUser) => {
+					if (resUser) {
+						setIsLoggedIn(true);
+						setUser(resUser);
+					}
+				})
+				.catch(() => {});
+		}
+	}, []);
 
 	const addToCart = (item: CartItem) => {
 		setCart((prevCart) => [...prevCart, item]);
@@ -83,25 +124,31 @@ export const NavContextProvider: React.FC<AppContextProviderProps> = ({
 
 	const logout = () => {
 		LocalStorageService.getInstance().clearAll();
+		setUser(null);
 		setIsLoggedIn(false);
+		setCart([]);
+		setWishlist([]);
 	};
 
-	const login = async (loginData: IFieldType) => {
-		await APIService.getInstance()
-			.post<IRoot>('/auth/login', loginData, true)
-			.then((response: AxiosResponse<IRoot>) => {
-				toast.success(translate('login.loginSuccess'));
-				setUser(response.data.user);
-				LocalStorageService.getInstance().setToken(response.data.token);
-				LocalStorageService.getInstance().save<IUser>(
-					'user',
-					response.data.user
-				);
+	const login = async (loginData: IFieldType | null) => {
+		if (!isLoggedIn) {
+			let tempUser: IUser | void;
+			if (loginData) {
+				tempUser = await loginWithUserCredentials(loginData);
+			} else if (LocalStorageService.getInstance().getToken()) {
+				tempUser = await getCurrentUser();
+			}
+			if (tempUser) {
+				setUser(tempUser);
 				setIsLoggedIn(true);
-			});
+				console.log('LOGGED IN');
+			}
+			console.log('LOGGED OUT');
+		}
+		console.log('LOGGED IN');
 	};
 
-	const contextValue: NavContextType = {
+	const contextValue: AppContextType = {
 		cart,
 		wishlist,
 		user,
@@ -115,6 +162,6 @@ export const NavContextProvider: React.FC<AppContextProviderProps> = ({
 	};
 
 	return (
-		<NavContext.Provider value={contextValue}>{children}</NavContext.Provider>
+		<AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
 	);
 };
