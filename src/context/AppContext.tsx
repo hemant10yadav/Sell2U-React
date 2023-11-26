@@ -4,7 +4,6 @@ import {
 	React,
 	toast,
 	translate,
-	useEffect,
 } from '../utilities/commonImports';
 import Paths from '../utilities/Paths';
 import { IFieldType, IRoot, IUser } from '../utilities/interface';
@@ -82,18 +81,18 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	const [user, setUser] = useState<IUser | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-	useEffect(() => {
-		if (!isLoggedIn) {
-			getCurrentUser()
-				.then((resUser) => {
-					if (resUser) {
-						setIsLoggedIn(true);
-						setUser(resUser);
-					}
-				})
-				.catch(() => {});
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (!isLoggedIn) {
+	// 		getCurrentUser()
+	// 			.then((resUser) => {
+	// 				if (resUser) {
+	// 					setIsLoggedIn(true);
+	// 					setUser(resUser);
+	// 				}
+	// 			})
+	// 			.catch(() => {});
+	// 	}
+	// }, []);
 
 	const addToCart = (item: CartItem) => {
 		setCart((prevCart) => [...prevCart, item]);
@@ -131,12 +130,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	};
 
 	const login = async (loginData: IFieldType | null) => {
+		console.log('INSIDE LOGIN', isLoggedIn);
 		if (!isLoggedIn) {
 			let tempUser: IUser | void;
 			if (loginData) {
 				tempUser = await loginWithUserCredentials(loginData);
 			} else if (LocalStorageService.getInstance().getToken()) {
 				tempUser = await getCurrentUser();
+				console.log(tempUser);
 			}
 			if (tempUser) {
 				setUser(tempUser);

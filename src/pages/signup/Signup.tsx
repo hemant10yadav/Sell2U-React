@@ -178,7 +178,7 @@ const Signup: React.FC = () => {
 			})();
 		} catch (error: unknown) {
 			if (error instanceof ZodError) {
-				error.errors.map((err) => {
+				error.errors.forEach((err) => {
 					const key = err.path[0];
 					setErrorFields((prevErrors) => ({
 						...prevErrors,
@@ -197,7 +197,7 @@ const Signup: React.FC = () => {
 				</h1>
 				<div className="flex gap-2">
 					{signupFields.map((field) => {
-						if (field.id === 'firstName' || field.id === 'lastName') {
+						if (['firstName', 'lastName'].includes(field.id)) {
 							return (
 								<Input
 									key={field.id}
@@ -221,7 +221,7 @@ const Signup: React.FC = () => {
 				</div>
 				<div>
 					{signupFields.map((field) => {
-						if (field.id !== 'firstName' && field.id !== 'lastName') {
+						if (!['firstName', 'lastName'].includes(field.id)) {
 							return (
 								<Input
 									key={field.id}
