@@ -1,6 +1,5 @@
 import './App.css';
 import AppRoute from './AppRoute';
-import NavBar from './components/navBar/NavBar';
 import { DefaultToastOptions, Toaster } from 'react-hot-toast';
 import { AppContextProvider } from './context/AppContext';
 
@@ -45,7 +44,6 @@ function App() {
 	return (
 		<div className="App app-bg-gradient min-h-screen font-sans">
 			<AppContextProvider>
-				<NavBar />
 				<AppRoute />
 				<Toaster
 					position="top-right"

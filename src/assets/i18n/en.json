@@ -42,5 +42,13 @@
 		"badRequest": "Bad request",
 		"badNetwork": "Bad network",
 		"timeoutError": "Timeout error"
+	},
+	"product": {
+		"name": "Name",
+		"description": "Description",
+		"price": "Price",
+		"discount": "Discount",
+		"brand": "Brand",
+		"quantity": "Quantity"
 	}
 }

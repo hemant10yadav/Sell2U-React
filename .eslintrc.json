@@ -39,26 +39,21 @@
     }
   },
   "rules": {
-    "linebreak-style": "off",
-    "react/prop-types": 0,
-    // Configure prettier
-    "prettier/prettier": [
-      "error",
-      {
-        "printWidth": 80,
-        "endOfLine": "auto",
-        "singleQuote": true,
-        "tabWidth": 2,
-        "useTabs": true,
-        "trailingComma": "es5"
-      }
-    ],
-    "@typescript-eslint/no-implicit-any": "off",
-    /*"@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/no-unsafe-call": "off",*/
-    "react-hooks/exhaustive-deps": "off",
-    // Enforce the use of the shorthand syntax.
-    "object-shorthand": "error",
-    "no-console": "warn"
-  }
+		"linebreak-style": "off",
+		"react/prop-types": 0,
+		// Configure prettier
+		"prettier/prettier": [
+			"error",
+			{
+				"printWidth": 80,
+				"endOfLine": "auto",
+				"singleQuote": true,
+				"tabWidth": 2,
+				"useTabs": true,
+				"trailingComma": "es5"
+			}
+		],
+		"react-hooks/exhaustive-deps": "off",
+		"no-console": "warn"
+	}
 }

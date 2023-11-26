@@ -85,7 +85,7 @@ const Login: React.FC = () => {
 				});
 			} catch (error: unknown) {
 				if (error instanceof ZodError) {
-					error.errors.map((err) => {
+					error.errors.forEach((err) => {
 						const key = err.path[0];
 						setFieldErrors((prevErrors) => ({
 							...prevErrors,
