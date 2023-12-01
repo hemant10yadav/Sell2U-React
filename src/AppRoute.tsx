@@ -5,13 +5,11 @@ import Signup from './pages/signup/Signup';
 import Home from './pages/home/Home';
 import {
 	Paths,
-	React,
 	useContext,
 	useEffect,
 	useState,
 } from './utilities/commonImports';
 import { AppContext } from './context/AppContext';
-import LocalStorageService from './services/LocalStorageService';
 import NavBar from './components/navBar/NavBar';
 import AddProduct from './pages/addProduct/AddProduct';
 import Verification from './pages/verification/Verification';
@@ -22,8 +20,10 @@ const AppRoute = () => {
 	useEffect(() => {
 		const hem = async () => {
 			if (!isLoggedIn) {
-				if (LocalStorageService.getInstance().getToken()) {
+				try {
 					await login(null);
+				} catch (err) {
+					console.log('Not logged in');
 				}
 			}
 		};
@@ -39,7 +39,7 @@ const AppRoute = () => {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path={Paths.LOGIN} element={<Login />} />
-						<Route path={Paths.SIGNUP} element={<Signup />} />
+						<Route path={Paths.SIGN_UP} element={<Signup />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route
 							path={`${Paths.USERS}${Paths.EMAIL}${Paths.VERIFY}`}
