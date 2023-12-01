@@ -6,10 +6,10 @@ import { useContext } from 'react';
 
 const Verification: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { isLoggedIn } = useContext(AppContext);
+	//const { isLoggedIn } = useContext(AppContext);
 	const navigate = useNavigate();
 	const token = searchParams.get('token') as string;
-	if (!token && !isLoggedIn) {
+	if (!token) {
 		navigate(Paths.LOGIN);
 	}
 	APIService.getInstance()

@@ -2,51 +2,18 @@ import './Login.css';
 import {
 	ChangeEvent,
 	NavigateFunction,
+	Paths,
 	React,
 	translate,
 	useState,
 	z,
 	ZodError,
 } from '../../utilities/commonImports';
-import {
-	AccountCircleIcon,
-	LoginIcon,
-	PasswordIcon,
-	VisibilityIcon,
-} from '../../utilities/imageLogoImports';
-import { Button, Input } from '../../components/common/componentsImports';
 import { IFieldType } from '../../utilities/interface';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
-
-const loginFields = [
-	{
-		labelText: translate('login.email'),
-		labelFor: 'emailOrUsername',
-		id: 'emailOrUsername',
-		name: 'emailOrUsername',
-		type: 'text',
-		autoFocus: true,
-		isRequired: true,
-		placeholder: translate('login.emailOrUsername'),
-		icon: AccountCircleIcon,
-	},
-	{
-		labelText: translate('login.password'),
-		labelFor: 'password',
-		id: 'password',
-		name: 'password',
-		type: 'password',
-		autoComplete: 'current-password',
-		isRequired: true,
-		placeholder: translate('login.password'),
-		icon: PasswordIcon,
-		endLineIcon: VisibilityIcon,
-	},
-];
-
-const fieldsState: IFieldType = {};
+import { AppLogoBlack } from '../../utilities/imageLogoImports';
 
 const loginFormSchema = z.object({
 	emailOrUsername: z.coerce
@@ -62,12 +29,14 @@ const loginFormSchema = z.object({
 const Login: React.FC = () => {
 	const { login } = useContext(AppContext);
 	const navigate: NavigateFunction = useNavigate();
+
+	const fieldsState: IFieldType = {
+		password: '',
+		emailOrUsername: '',
+	};
+
 	const [loginState, setLoginState] = useState<IFieldType>(fieldsState);
 	const [fieldErrors, setFieldErrors] = useState<IFieldType>({});
-
-	loginFields.forEach((field) => {
-		fieldsState[field.id] = '';
-	});
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
@@ -80,9 +49,8 @@ const Login: React.FC = () => {
 		void (async () => {
 			try {
 				loginFormSchema.parse(loginState);
-				await login(loginState).then(() => {
-					navigate('/');
-				});
+				await login(loginState);
+				navigate('/');
 			} catch (error: unknown) {
 				if (error instanceof ZodError) {
 					error.errors.forEach((err) => {
@@ -98,50 +66,88 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div className="flex full-height items-center">
-			<div className="width shadow-card mx-auto p-8">
-				<h1 className="text-center text-2xl font-semibold">
-					{translate('login.welcome')}
-				</h1>
-				<form className="mt-8" onSubmit={handleSubmit}>
+		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
+				<img
+					className="mx-auto h-10 w-auto"
+					src={AppLogoBlack as string}
+					alt="Your Company"
+				/>
+				<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+					{translate('login.message')}
+				</h2>
+			</div>
+
+			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+				<form className="space-y-6" onSubmit={handleSubmit}>
 					<div>
-						{loginFields.map((field) => (
-							<Input
-								key={field.id}
-								handleChange={handleChange}
-								value={loginState[field.id]}
-								labelText={field.labelText}
-								labelFor={field.labelFor}
-								id={field.id}
-								name={field.name}
-								type={field.type}
-								autoFocus={field.autoFocus}
-								placeholder={field.placeholder}
-								icon={field.icon}
-								errorMessage={fieldErrors[field.id]}
-								customClass={'bg-transparent w-full'}
-								endLineIcon={field.endLineIcon}
+						<label
+							htmlFor="email"
+							className="block text-sm font-medium leading-6 text-gray-900"
+						>
+							{translate('login.emailOrUsername')}
+						</label>
+						<div className="mt-2">
+							<input
+								onChange={handleChange}
+								autoFocus
+								id="emailOrUsername"
+								name="emailOrUsername"
+								required
+								className="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 							/>
-						))}
+						</div>
 					</div>
-					<div className="mt-4 text-sm text-blue-400">
-						<a className="hover:underline" href="/signup">
-							{translate('login.forgotPassword')}
-						</a>
+
+					<div>
+						<div className="flex items-center justify-between">
+							<label
+								htmlFor="password"
+								className="block text-sm font-medium leading-6 text-gray-900"
+							>
+								{translate('login.password')}
+							</label>
+							<div className="text-sm">
+								<a
+									href="#"
+									className="font-semibold text-indigo-600 hover:text-indigo-500"
+								>
+									{translate('login.forgotPassword')}
+								</a>
+							</div>
+						</div>
+						<div className="mt-2">
+							<input
+								onChange={handleChange}
+								id="password"
+								name="password"
+								type="password"
+								autoComplete="current-password"
+								required
+								className="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+							/>
+						</div>
 					</div>
-					<div className="flex justify-center">
-						<Button
-							labelKey={'login.submit'}
-							id={'login-submit'}
-							type={'submit'}
-							outlineBtn={false}
-							rounded={'rounded-full'}
-							color={'primary'}
-							icon={LoginIcon}
-							customClass={'mt-10 w-1/2'}
-						/>
+
+					<div>
+						<button
+							type="submit"
+							className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
+							{translate('login.title')}
+						</button>
 					</div>
 				</form>
+
+				<p className="mt-10 text-center text-sm text-gray-500">
+					Not a member?{' '}
+					<button
+						onClick={() => navigate(Paths.SIGN_UP)}
+						className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+					>
+						{translate('sign_up.title')}
+					</button>
+				</p>
 			</div>
 		</div>
 	);

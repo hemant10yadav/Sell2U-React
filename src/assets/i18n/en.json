@@ -3,17 +3,18 @@
 		"title": "Login",
 		"welcome": "Welcome Back!",
 		"email": "Email address",
-		"emailOrUsername": "Email address or username",
+		"emailOrUsername": "Email address or Username",
 		"password": "Password",
 		"submit": "Submit",
 		"emailRequired": "Email is required.",
 		"passwordRequired": "Password is required.",
 		"loginSuccess": "You are now logged in successfully.",
-		"forgotPassword": "Forgot your password?",
-		"rememberMe": "Remember me"
+		"forgotPassword": "Forgot password?",
+		"rememberMe": "Remember me",
+		"message": "Sign in to your account"
 	},
-	"signup": {
-		"title": "Signup",
+	"sign_up": {
+		"title": "Sign up",
 		"email": "email@example.com",
 		"password": "Password",
 		"firstName": "First name",

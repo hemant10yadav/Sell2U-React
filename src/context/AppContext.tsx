@@ -7,7 +7,6 @@ import {
 } from '../utilities/commonImports';
 import Paths from '../utilities/Paths';
 import { IFieldType, IRoot, IUser } from '../utilities/interface';
-import { AxiosResponse } from 'axios';
 import LocalStorageService from '../services/LocalStorageService';
 
 type CartItem = {
@@ -51,26 +50,24 @@ const initialContextValue: AppContextType = {
 export const AppContext: Context<AppContextType> =
 	createContext<AppContextType>(initialContextValue);
 
-const loginWithUserCredentials = (
-	userCredentials: IFieldType
-): Promise<IUser | void> => {
-	return APIService.getInstance()
-		.post<IRoot>(Paths.LOGIN, userCredentials, true)
-		.then(
-			(response: AxiosResponse<IRoot>) => {
-				toast.success(translate('login.loginSuccess'));
-				LocalStorageService.getInstance().setToken(response.data.token);
-				return response.data.user;
-			},
-			() => {}
+const loginWithUserCredentials = async (userCredentials: IFieldType) => {
+	try {
+		const response = await APIService.getInstance().post<IRoot>(
+			Paths.LOGIN,
+			userCredentials,
+			true
 		);
+		return response.data;
+	} catch (error) {
+		return await Promise.reject(error);
+	}
 };
 
 const getCurrentUser = (): Promise<IUser | void> => {
 	if (LocalStorageService.getInstance().getToken()) {
 		return APIService.getInstance().get<IUser>(Paths.CURRENT);
 	}
-	return Promise.resolve();
+	return Promise.reject(null);
 };
 
 export const AppContextProvider: React.FC<AppContextProviderProps> = ({
@@ -130,23 +127,26 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	};
 
 	const login = async (loginData: IFieldType | null) => {
-		console.log('INSIDE LOGIN', isLoggedIn);
 		if (!isLoggedIn) {
 			let tempUser: IUser | void;
-			if (loginData) {
-				tempUser = await loginWithUserCredentials(loginData);
-			} else if (LocalStorageService.getInstance().getToken()) {
-				tempUser = await getCurrentUser();
-				console.log(tempUser);
+			try {
+				if (loginData) {
+					const response = await loginWithUserCredentials(loginData);
+					toast.success(translate('login.loginSuccess'));
+					tempUser = response.user;
+					LocalStorageService.getInstance().setToken(response.token);
+				} else {
+					tempUser = await getCurrentUser();
+				}
+				if (tempUser) {
+					setUser(tempUser);
+					setIsLoggedIn(true);
+				}
+				return tempUser;
+			} catch (err) {
+				await Promise.reject(err);
 			}
-			if (tempUser) {
-				setUser(tempUser);
-				setIsLoggedIn(true);
-				console.log('LOGGED IN');
-			}
-			console.log('LOGGED OUT');
 		}
-		console.log('LOGGED IN');
 	};
 
 	const contextValue: AppContextType = {
