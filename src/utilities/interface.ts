@@ -115,10 +115,12 @@ export interface IRouteProp {
 }
 
 export interface IModalProps {
+	eventType?: 'success' | 'warning' | 'error';
 	openModal: boolean;
 	headerKey: string;
 	bodyKey: string;
 	size: size;
 	onConfirm?: () => void;
 	onCancel?: () => void;
+	backdropDismiss?: boolean;
 }

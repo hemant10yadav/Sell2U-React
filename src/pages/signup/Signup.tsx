@@ -136,7 +136,6 @@ const Signup: React.FC = () => {
 						</button>
 					</div>
 				</form>
-				<button onClick={() => setIsModalOpen(true)}>hell</button>
 				<p className="mt-10 text-center text-sm text-gray-500">
 					{translate('signUp.alreadyMember') + ' '}
 					<button
@@ -149,7 +148,7 @@ const Signup: React.FC = () => {
 			</div>
 			<Modal
 				openModal={isModalOpen}
-				headerKey="Congratulations"
+				headerKey="signUp.congrats"
 				bodyKey="signUp.success"
 				size="sm"
 				onConfirm={() => navigate('/')}
