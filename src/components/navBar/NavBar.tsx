@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
 	const logoutElements = (
 		<>
 			<Link to={Paths.LOGIN}>{translate('login.title')}</Link>
-			<Link to={Paths.SIGN_UP}>{translate('signup.title')}</Link>
+			<Link to={Paths.SIGNUP}>{translate('signup.title')}</Link>
 		</>
 	);
 

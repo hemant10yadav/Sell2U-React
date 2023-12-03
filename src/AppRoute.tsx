@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/login/Login';
@@ -22,9 +23,7 @@ const AppRoute = () => {
 			if (!isLoggedIn) {
 				try {
 					await login(null);
-				} catch (err) {
-					console.log('Not logged in');
-				}
+				} catch (err) {}
 			}
 		};
 		hem().finally(() => {
@@ -39,7 +38,7 @@ const AppRoute = () => {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path={Paths.LOGIN} element={<Login />} />
-						<Route path={Paths.SIGN_UP} element={<Signup />} />
+						<Route path={Paths.SIGNUP} element={<Signup />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route
 							path={`${Paths.USERS}${Paths.EMAIL}${Paths.VERIFY}`}

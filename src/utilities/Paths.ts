@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 export default class Paths {
 	public static readonly AUTH = '/auth';
-	public static readonly SIGN_UP = `${this.AUTH}/signup`;
+	public static readonly SIGNUP = `${this.AUTH}/signup`;
 	public static readonly LOGIN = `${this.AUTH}/login`;
 	public static readonly RESET_PASSWORD = '/reset-password';
 	public static readonly USERS = '/users';

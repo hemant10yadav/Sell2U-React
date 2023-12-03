@@ -1,5 +1,6 @@
 import { ChangeEvent, React } from '../utilities/commonImports';
 import { ProductCategory, ProductSubCategory, Role } from './enum';
+import type { size } from '@material-tailwind/react/types/components/dialog';
 
 export interface IToken {
 	value: string;
@@ -8,19 +9,15 @@ export interface IToken {
 
 export interface IInputProps {
 	handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-	value: string;
-	labelText: string;
-	labelFor: string;
+	labelKey: string;
 	id: string;
-	name: string;
+	value?: string;
 	type?: string;
-	isRequired?: boolean;
+	required?: boolean;
 	autoFocus?: boolean;
 	placeholder?: string;
 	customClass?: string;
-	icon?: React.ComponentType<{ className?: string }>;
-	endLineIcon?: React.ComponentType<{ className?: string }>;
-	errorMessage?: string;
+	errorMessageKey?: string;
 }
 
 export interface IButton {
@@ -115,4 +112,13 @@ export interface IProduct {
 export interface IRouteProp {
 	path: string;
 	component: React.ReactNode;
+}
+
+export interface IModalProps {
+	openModal: boolean;
+	headerKey: string;
+	bodyKey: string;
+	size: size;
+	onConfirm?: () => void;
+	onCancel?: () => void;
 }

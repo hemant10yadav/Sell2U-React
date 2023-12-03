@@ -5,24 +5,13 @@ import {
 	AxiosResponse,
 	ChangeEvent,
 	NavigateFunction,
+	Paths,
 	React,
-	toast,
 	translate,
 	useState,
-	z,
 	ZodError,
 } from '../../utilities/commonImports';
-import {
-	AccountCircleIcon,
-	Face5Icon,
-	Face6Icon,
-	FollowTheSignsIcon,
-	MailOutlineIcon,
-	PasswordIcon,
-	VisibilityIcon,
-} from '../../utilities/imageLogoImports';
-import { Input } from '../../components/common/componentsImports';
-import Button from '../../components/common/button/Button';
+import { AppLogoBlack } from '../../utilities/imageLogoImports';
 import {
 	IApiError,
 	IError,
@@ -30,118 +19,37 @@ import {
 	IUser,
 } from '../../utilities/interface';
 import { useNavigate } from 'react-router-dom';
+import { signupFormSchema } from '../../utilities/formValidators';
+import { Input, Modal } from '../../components/common/componentsImports';
 
-const signupFields = [
+const SIGNUP_FIELDS = [
+	{ id: 'email', labelKey: 'signUp.email', type: 'email', focus: true },
 	{
-		labelText: translate('signup.firstName'),
-		labelFor: 'firstName',
-		id: 'firstName',
-		name: 'firstName',
-		type: 'text',
-		autoFocus: true,
-		isRequired: true,
-		placeholder: translate('signup.firstName'),
-		icon: Face5Icon,
-	},
-	{
-		labelText: translate('signup.lastName'),
-		labelFor: 'lastName',
-		id: 'lastName',
-		name: 'lastName',
-		type: 'text',
-		autoFocus: true,
-		isRequired: true,
-		placeholder: translate('signup.lastName'),
-		icon: Face6Icon,
-	},
-	{
-		labelText: translate('signup.username'),
-		labelFor: 'username',
-		id: 'username',
-		name: 'username',
-		type: 'text',
-		autoFocus: true,
-		isRequired: true,
-		placeholder: translate('signup.username'),
-		icon: AccountCircleIcon,
-	},
-	{
-		labelText: translate('signup.email'),
-		labelFor: 'email',
-		id: 'email',
-		name: 'email',
-		type: 'email',
-		autoFocus: true,
-		isRequired: true,
-		placeholder: translate('signup.email'),
-		icon: MailOutlineIcon,
-	},
-	{
-		labelText: translate('signup.password'),
-		labelFor: 'password',
 		id: 'password',
-		name: 'password',
+		labelKey: 'signUp.password',
 		type: 'password',
-		autoComplete: 'current-password',
-		isRequired: true,
-		placeholder: translate('signup.password'),
-		icon: PasswordIcon,
-		endLineIcon: VisibilityIcon,
+		focus: false,
 	},
 	{
-		labelText: translate('signup.confirmPassword'),
-		labelFor: 'confirm-password',
 		id: 'confirmPassword',
-		name: 'confirmPassword',
+		labelKey: 'signUp.confirmPassword',
 		type: 'password',
-		autoComplete: 'confirmPassword',
-		isRequired: true,
-		placeholder: translate('signup.confirmPassword'),
-		icon: PasswordIcon,
+		focus: false,
 	},
 ];
-
-const fieldsState: IFieldType = {};
-const nameRegex = /^[a-zA-Z\s]*$/;
-const signupFormSchema = z
-	.object({
-		firstName: z.coerce
-			.string()
-			.trim()
-			.min(5, translate('formErrors.mini4'))
-			.max(15, translate('formErrors.max15'))
-			.regex(nameRegex, {
-				message: translate('formErrors.specialCharNotAllowed'),
-			}),
-		lastName: z.coerce
-			.string()
-			.trim()
-			.min(5, translate('formErrors.mini4'))
-			.max(15, translate('formErrors.max15'))
-			.regex(nameRegex, {
-				message: translate('formErrors.specialCharNotAllowed'),
-			}),
-		username: z.coerce.string().trim().min(5, translate('formErrors.mini4')),
-		email: z.coerce
-			.string()
-			.trim()
-			.email(translate('formErrors.emailError'))
-			.nonempty(translate('formErrors.fieldIsEmpty')),
-		password: z.coerce.string().trim().min(6, translate('formErrors.mini4')),
-		confirmPassword: z.string().trim(),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: translate('formErrors.passwordMismatch'),
-		path: ['confirmPassword'],
-	});
-
 const Signup: React.FC = () => {
 	const navigate: NavigateFunction = useNavigate();
+
+	const fieldsState: IFieldType = {
+		email: '',
+		password: '',
+		confirmPassword: '',
+	};
+
 	const [signupState, setSignupState] = useState<IFieldType>(fieldsState);
 	const [errorFields, setErrorFields] = useState<IFieldType>({});
-	signupFields.forEach((field) => {
-		fieldsState[field.id] = '';
-	});
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSignupState({
 			...signupState,
@@ -157,15 +65,14 @@ const Signup: React.FC = () => {
 			signupFormSchema.parse(signupState);
 			void (async () => {
 				await APIService.getInstance()
-					.post<IUser>('/auth/signup', signupState, true)
+					.post<IUser>(Paths.SIGNUP, signupState, true)
 					.then(
 						(data: AxiosResponse<IUser>) => {
-							navigate('/');
-							toast.success(translate('signup.success'));
+							setIsModalOpen(true);
 						},
 						(error: AxiosError<IApiError>) => {
 							if (error?.response?.data?.error) {
-								const errorArray = error?.response?.data?.error;
+								const errorArray = error.response.data.error;
 								errorArray.forEach((err: IError) => {
 									setErrorFields((prevErrors) => ({
 										...prevErrors,
@@ -190,70 +97,63 @@ const Signup: React.FC = () => {
 	};
 
 	return (
-		<div className="full-height flex items-center justify-center">
-			<form className="width shadow-card p-8" onSubmit={handleSubmit}>
-				<h1 className="text-center text-2xl font-semibold">
-					{translate('signup.title')}
-				</h1>
-				<div className="flex gap-2">
-					{signupFields.map((field) => {
-						if (['firstName', 'lastName'].includes(field.id)) {
-							return (
-								<Input
-									key={field.id}
-									handleChange={handleChange}
-									value={signupState[field.id]}
-									labelText={field.labelText}
-									labelFor={field.labelFor}
-									id={field.id}
-									type={field.type}
-									name={field.name}
-									placeholder={field.placeholder}
-									icon={field.icon}
-									endLineIcon={field.endLineIcon}
-									errorMessage={errorFields[field.id]}
-									customClass="bg-transparent"
-								/>
-							);
-						}
-						return null;
+		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
+				<img
+					className="mx-auto h-10 w-auto"
+					src={AppLogoBlack as string}
+					alt="BuyMarque"
+				/>
+				<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+					{translate('signUp.title')}
+				</h2>
+			</div>
+
+			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+				<form onSubmit={handleSubmit} className="space-y-4">
+					{SIGNUP_FIELDS.map((field) => {
+						return (
+							<Input
+								key={field.id}
+								value={signupState[field.id]}
+								handleChange={handleChange}
+								autoFocus={field.focus}
+								type={field.type}
+								labelKey={field.labelKey}
+								id={field.id}
+								errorMessageKey={errorFields[field.id]}
+							/>
+						);
 					})}
-				</div>
-				<div>
-					{signupFields.map((field) => {
-						if (!['firstName', 'lastName'].includes(field.id)) {
-							return (
-								<Input
-									key={field.id}
-									handleChange={handleChange}
-									value={signupState[field.id]}
-									labelText={field.labelText}
-									labelFor={field.labelFor}
-									id={field.id}
-									type={field.type}
-									name={field.name}
-									placeholder={field.placeholder}
-									icon={field.icon}
-									endLineIcon={field.endLineIcon}
-									errorMessage={errorFields[field.id]}
-									customClass="bg-transparent w-full"
-								/>
-							);
-						}
-						return null;
-					})}
-				</div>
-				<div className="flex justify-center">
-					<Button
-						type="submit"
-						labelKey="signup.title"
-						icon={FollowTheSignsIcon}
-						id="signup-button"
-						outlineBtn={false}
-						customClass="w-1/2 mt-6"
-					/>
-				</div>
-			</form>
+					<div className="my-2">
+						<button
+							type="submit"
+							className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm 
+							font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline 
+							focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
+							{translate('signUp.title')}
+						</button>
+					</div>
+				</form>
+				<button onClick={() => setIsModalOpen(true)}>hell</button>
+				<p className="mt-10 text-center text-sm text-gray-500">
+					{translate('signUp.alreadyMember') + ' '}
+					<button
+						onClick={() => navigate(Paths.LOGIN)}
+						className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+					>
+						{translate('login.title')}
+					</button>
+				</p>
+			</div>
+			<Modal
+				openModal={isModalOpen}
+				headerKey="Congratulations"
+				bodyKey="signUp.success"
+				size="sm"
+				onConfirm={() => navigate('/')}
+			/>
 		</div>
 	);
 };

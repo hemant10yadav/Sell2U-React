@@ -78,7 +78,7 @@ const AddProduct: React.FC = () => {
 
 	return (
 		<div>
-			<h2>{translate('Add a product')}</h2>
+			{/* <h2>{translate('Add a product')}</h2>
 			<form>
 				{productFields.map((field) => {
 					return (
@@ -95,7 +95,7 @@ const AddProduct: React.FC = () => {
 						/>
 					);
 				})}
-			</form>
+			</form> */}
 		</div>
 	);
 };

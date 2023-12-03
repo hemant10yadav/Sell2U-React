@@ -1,9 +1,9 @@
 {
 	"login": {
-		"title": "Login",
+		"title": "Log in",
 		"welcome": "Welcome Back!",
 		"email": "Email address",
-		"emailOrUsername": "Email address or Username",
+		"emailOrUsername": "Username or email address",
 		"password": "Password",
 		"submit": "Submit",
 		"emailRequired": "Email is required.",
@@ -11,17 +11,19 @@
 		"loginSuccess": "You are now logged in successfully.",
 		"forgotPassword": "Forgot password?",
 		"rememberMe": "Remember me",
-		"message": "Sign in to your account"
+		"message": "Sign in to your account",
+		"notAMember": "Not a member?"
 	},
-	"sign_up": {
+	"signUp": {
 		"title": "Sign up",
-		"email": "email@example.com",
+		"email": "Email",
 		"password": "Password",
 		"firstName": "First name",
 		"lastName": "Last name",
 		"username": "Username",
 		"confirmPassword": "Confirm password",
-		"success": "Account created successfully."
+		"success": "Your account was created successfully. Please verify your email address to complete registration. We have sent an email with a verification link to your mail. Please check your inbox and spam folders and click on the link to activate your account.",
+		"alreadyMember": "Already a member?"
 	},
 	"home": {
 		"title": "WIP on signup and login"
@@ -51,5 +53,9 @@
 		"discount": "Discount",
 		"brand": "Brand",
 		"quantity": "Quantity"
+	},
+	"modal": {
+		"ok": "Ok",
+		"cancel": "Cancel"
 	}
 }
