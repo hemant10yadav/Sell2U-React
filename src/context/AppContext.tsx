@@ -127,6 +127,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	};
 
 	const login = async (loginData: IFieldType | null) => {
+		console.log(isLoggedIn);
+
 		if (!isLoggedIn) {
 			let tempUser: IUser | void;
 			try {
@@ -137,6 +139,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 					LocalStorageService.getInstance().setToken(response.token);
 				} else {
 					tempUser = await getCurrentUser();
+					console.log(tempUser);
 				}
 				if (tempUser) {
 					setUser(tempUser);

@@ -4,19 +4,24 @@ import {
 	React,
 	translate,
 	useContext,
-} from '../../utilities/commonImports';
+} from '../utilities/commonImports';
 import './NavBar.css';
-import { AppContext } from '../../context/AppContext';
+import { AppContext } from '../context/AppContext';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Dropdown } from '../common/componentsImports';
-import { AppIconWhite, AppLogoBlack } from '../../utilities/imageLogoImports';
+import { Dropdown } from './common/componentsImports';
+import { AppIconWhite, AppLogoBlack } from '../utilities/imageLogoImports';
 
 const navigation = [
 	{ name: 'Home', href: '#', current: true },
 	{ name: 'Team', href: '#', current: false },
 	{ name: 'Projects', href: '#', current: false },
 	{ name: 'Calendar', href: '#', current: false },
+];
+
+const PUBLIC_TABS = [
+	{ name: 'Log in', href: Paths.LOGIN },
+	{ name: 'Sign in', href: Paths.SIGNUP },
 ];
 
 function classNames(...classes: string[]) {
@@ -49,11 +54,13 @@ const NavBar: React.FC = () => {
 
 	const userProfileDropDownItems = [
 		{ label: 'Your Profile' },
-		{ label: 'Sign out' },
+		{ label: isLoggedIn ? 'Sign out' : 'Sign in' },
 	];
 
 	const userClickedDropDown = (option: string) => {
-		console.log(option);
+		if (option === 'Sign out') {
+			handleLogout();
+		}
 	};
 
 	return (
@@ -112,11 +119,25 @@ const NavBar: React.FC = () => {
 									<BellIcon className="h-6 w-6" aria-hidden="true" />
 								</button>
 								{/*USER PROFILE*/}
-								<Dropdown
-									buttonContent={buttonContent}
-									items={userProfileDropDownItems}
-									optionClicked={userClickedDropDown}
-								/>
+								{isLoggedIn ? (
+									<Dropdown
+										buttonContent={buttonContent}
+										items={userProfileDropDownItems}
+										optionClicked={userClickedDropDown}
+									/>
+								) : (
+									<div className="flex space-x-4">
+										{PUBLIC_TABS.map((item) => (
+											<a
+												key={item.name}
+												href={item.href}
+												className="text-gray-300 hover:bg-gray-700 hover:text-white"
+											>
+												{item.name}
+											</a>
+										))}
+									</div>
+								)}
 							</div>
 						</div>
 					</div>

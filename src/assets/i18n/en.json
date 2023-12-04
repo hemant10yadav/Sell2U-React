@@ -48,12 +48,15 @@
 		"timeoutError": "Timeout error"
 	},
 	"product": {
+		"title": "Add product",
 		"name": "Name",
 		"description": "Description",
 		"price": "Price",
 		"discount": "Discount",
 		"brand": "Brand",
-		"quantity": "Quantity"
+		"quantity": "Quantity",
+		"category": "Category",
+		"subcategory": "Subcategory"
 	},
 	"modal": {
 		"ok": "Ok",

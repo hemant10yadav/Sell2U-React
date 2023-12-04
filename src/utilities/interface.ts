@@ -8,7 +8,9 @@ export interface IToken {
 }
 
 export interface IInputProps {
-	handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	handleChange: (
+		event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => void;
 	labelKey: string;
 	id: string;
 	value?: string;
@@ -18,6 +20,7 @@ export interface IInputProps {
 	placeholder?: string;
 	customClass?: string;
 	errorMessageKey?: string;
+	selectOptions?: string[];
 }
 
 export interface IButton {

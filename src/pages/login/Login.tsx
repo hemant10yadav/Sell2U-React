@@ -6,11 +6,10 @@ import {
 	React,
 	translate,
 	useState,
-	z,
 	ZodError,
 } from '../../utilities/commonImports';
 import { IFieldType } from '../../utilities/interface';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { AppLogoBlack } from '../../utilities/imageLogoImports';
@@ -18,7 +17,12 @@ import { loginFormSchema } from '../../utilities/formValidators';
 import { Input } from '../../components/common/componentsImports';
 
 const LOGIN_FIELDS = [
-	{ id: 'email', labelKey: 'login.emailOrUsername', type: 'text', focus: true },
+	{
+		id: 'emailOrUsername',
+		labelKey: 'login.emailOrUsername',
+		type: 'text',
+		focus: true,
+	},
 	{
 		id: 'password',
 		labelKey: 'login.password',
@@ -28,9 +32,10 @@ const LOGIN_FIELDS = [
 ];
 
 const Login: React.FC = () => {
-	const { login } = useContext(AppContext);
 	const navigate: NavigateFunction = useNavigate();
-
+	const location = useLocation();
+	console.log(location);
+	const { login } = useContext(AppContext);
 	const fieldsState: IFieldType = {
 		password: '',
 		emailOrUsername: '',
@@ -39,7 +44,9 @@ const Login: React.FC = () => {
 	const [loginState, setLoginState] = useState<IFieldType>(fieldsState);
 	const [fieldErrors, setFieldErrors] = useState<IFieldType>({});
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
 		setLoginState({ ...loginState, [e.target.id]: e.target.value });
 		delete fieldErrors[e.target.id];
 		setFieldErrors(fieldErrors);
@@ -120,6 +127,8 @@ const Login: React.FC = () => {
 					{translate('login.notAMember') + ' '}
 					<Link
 						to={Paths.SIGNUP}
+						state={location.state as unknown}
+						replace
 						className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
 					>
 						{translate('signUp.title')}

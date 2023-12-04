@@ -61,14 +61,14 @@ const Dropdown: React.FC<DropdownProps> = ({
 					{items.map((item, index) => (
 						<Menu.Item key={index}>
 							{({ active }) => (
-								<a
+								<button
 									onClick={() => optionClicked(item.label)}
 									className={`${
 										active ? 'bg-gray-100' : ''
 									} block px-4 py-2 text-sm text-gray-700`}
 								>
 									{item.label}
-								</a>
+								</button>
 							)}
 						</Menu.Item>
 					))}

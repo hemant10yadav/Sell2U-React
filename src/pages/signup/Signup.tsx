@@ -18,7 +18,7 @@ import {
 	IFieldType,
 	IUser,
 } from '../../utilities/interface';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { signupFormSchema } from '../../utilities/formValidators';
 import { Input, Modal } from '../../components/common/componentsImports';
 
@@ -39,6 +39,8 @@ const SIGNUP_FIELDS = [
 ];
 const Signup: React.FC = () => {
 	const navigate: NavigateFunction = useNavigate();
+	const location = useLocation();
+	console.log(location);
 
 	const fieldsState: IFieldType = {
 		email: '',
@@ -50,7 +52,9 @@ const Signup: React.FC = () => {
 	const [errorFields, setErrorFields] = useState<IFieldType>({});
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
 		setSignupState({
 			...signupState,
 			[e.target.id]: e.target.value?.trim(),
@@ -138,12 +142,14 @@ const Signup: React.FC = () => {
 				</form>
 				<p className="mt-10 text-center text-sm text-gray-500">
 					{translate('signUp.alreadyMember') + ' '}
-					<button
-						onClick={() => navigate(Paths.LOGIN)}
+					<Link
+						to={Paths.LOGIN}
+						state={location.state as unknown}
+						replace
 						className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
 					>
 						{translate('login.title')}
-					</button>
+					</Link>
 				</p>
 			</div>
 			<Modal
@@ -151,7 +157,7 @@ const Signup: React.FC = () => {
 				headerKey="signUp.congrats"
 				bodyKey="signUp.success"
 				size="sm"
-				onConfirm={() => navigate('/')}
+				onConfirm={() => navigate('/', { replace: true })}
 			/>
 		</div>
 	);

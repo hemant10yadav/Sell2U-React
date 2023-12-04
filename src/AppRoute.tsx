@@ -11,9 +11,11 @@ import {
 	useState,
 } from './utilities/commonImports';
 import { AppContext } from './context/AppContext';
-import NavBar from './components/navBar/NavBar';
+import NavBar from './components/NavBar';
 import AddProduct from './pages/addProduct/AddProduct';
 import Verification from './pages/verification/Verification';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 
 const AppRoute = () => {
 	const [state, setState] = useState(false);
@@ -37,8 +39,22 @@ const AppRoute = () => {
 					<NavBar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path={Paths.LOGIN} element={<Login />} />
-						<Route path={Paths.SIGNUP} element={<Signup />} />
+						<Route
+							path={Paths.LOGIN}
+							element={
+								<PublicRoute>
+									<Login />
+								</PublicRoute>
+							}
+						/>
+						<Route
+							path={Paths.SIGNUP}
+							element={
+								<PublicRoute>
+									<Signup />
+								</PublicRoute>
+							}
+						/>
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route
 							path={`${Paths.USERS}${Paths.EMAIL}${Paths.VERIFY}`}

@@ -18,6 +18,7 @@ const Input: React.FC<IInputProps> = ({
 	placeholder,
 	customClass,
 	errorMessageKey,
+	selectOptions,
 }) => {
 	const [focus, setFocus] = useState<boolean>(false);
 	const [inputType, setInputType] = useState<string>(type);
@@ -36,19 +37,37 @@ const Input: React.FC<IInputProps> = ({
 			</label>
 
 			<div className="mt-2">
-				<input
-					className={inputCss}
-					onChange={handleChange}
-					value={value}
-					id={id}
-					name={id}
-					type={inputType}
-					required={required}
-					autoFocus={autoFocus}
-					placeholder={placeholder}
-					onFocus={() => setFocus(true)}
-					onBlur={() => setFocus(false)}
-				/>
+				{!selectOptions && (
+					<input
+						className={inputCss}
+						onChange={handleChange}
+						value={value}
+						id={id}
+						name={id}
+						type={inputType}
+						required={required}
+						autoFocus={autoFocus}
+						placeholder={placeholder}
+						onFocus={() => setFocus(true)}
+						onBlur={() => setFocus(false)}
+					/>
+				)}
+				{selectOptions && (
+					<select
+						id={id}
+						name={id}
+						className={inputCss}
+						required={required}
+						value={value}
+						onChange={handleChange}
+					>
+						{selectOptions.map((str) => (
+							<option key={str} value={str}>
+								{str}
+							</option>
+						))}
+					</select>
+				)}
 			</div>
 			{errorMessageKey && (
 				<p className="text-red-500 text-xs italic">
